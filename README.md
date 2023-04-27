@@ -1,8 +1,9 @@
-<h2 align="center">Telegram bot "Bot_For_Party"</h2>
+<h2 align="center">Telegram bot "CheckPartyBot"</h2>
 
 
 **Ссылки**:
-- [Telegram](https://t.me/dentog)
+- [Telegram Бота](https://t.me/CheckPartyBot)
+- [Мой Telegram](https://t.me/dentog)
 
 ### Описание проекта:
 Телеграм бот с возможностью поиска Пати для совместного отдыха.
