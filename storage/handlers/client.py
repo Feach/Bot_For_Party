@@ -3,6 +3,7 @@ from aiogram import types, Dispatcher
 from text_base.texts import first_text
 from keyboards import client_keyboards
 from keyboards.client_keyboards import ikb_help
+from config import admin_inside_id
 
 # буферы тескта
 HELP_COMMAND = """
@@ -24,6 +25,7 @@ def register_handlers_client(dp: Dispatcher):
 async def start(message: types.Message):
     await message.answer(text=first_text, reply_markup=client_keyboards.ikb_start)
     await message.delete()
+    await message.bot.send_message(admin_inside_id, f"В бота зашел @{message.from_user.username}")
 
 
 # @dp.message_handler(commands=['help'])
