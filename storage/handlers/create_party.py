@@ -11,6 +11,8 @@ from keyboards.client_keyboards import keyboards_create_gender, button_next, but
 
 from handlers import my_party
 
+from config import PARSE_PARTY_LIST_URL
+
 
 class FSMCreate_party(StatesGroup):
     title = State()
@@ -27,7 +29,7 @@ class FSMCreate_party(StatesGroup):
 @dp.callback_query_handler(lambda query: query.data == "ibtn_create_party")
 async def proverka_party(message: types.Message): #Проверка наличия пати(имеется ли в БД leader_id)
     await message.bot.send_message(message.from_user.id, 'Подождите запрос обрабатывается')
-    parse = json_parse_partys.get_json(url="http://127.0.0.1:8000/party_list/?format=json&page_size=1000")
+    parse = json_parse_partys.get_json(url=PARSE_PARTY_LIST_URL)
     data_parse = parse.get("results")
     is_user_exists = False
     for item in data_parse:

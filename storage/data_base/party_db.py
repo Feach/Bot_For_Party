@@ -10,6 +10,7 @@ from import_buffer import dp
 
 from keyboards.client_keyboards import ikb_connect_to_party, ikb_pagination, main_menu, ikb_my_party1
 
+from config import CREATE_PARTY_URL, PARSE_PARTY_LIST_URL, PARSE_USER_LIST_URL, CONNECT_TO_PARTY_URL
 
 # подключение бд к боту
 def sql_party_start():
@@ -33,7 +34,7 @@ async def sql_create_party(state):
             "max_users": data['max_users'],
             "leader_id": data['leader_id'],
         }
-    requests.post(url="http://127.0.0.1:8000/create_party/", json=json_data)
+    requests.post(url=CREATE_PARTY_URL, json=json_data)
 
 
 @dp.callback_query_handler(lambda query: query.data == "connect_to_data")
@@ -41,8 +42,8 @@ async def sql_connect_to_party(message):
     text = message["message"]["reply_markup"]["inline_keyboard"][0][0]["text"]
     party_pk = text.replace("Подключиться к группе №", "")
     user_id = message["message"]["chat"]["username"]
-    party_data = json_parse_partys.get_json(url="http://127.0.0.1:8000/party_list/?format=json&page_size=1000")
-    user_data = json_parse_users.get_json(url="http://127.0.0.1:8000/users/?format=json&page=1&page_size=1000")
+    party_data = json_parse_partys.get_json(url=PARSE_PARTY_LIST_URL)
+    user_data = json_parse_users.get_json(url=PARSE_USER_LIST_URL)
     party_data_result = party_data.get("results")
     for item in party_data_result:
         if int(item.get('pk')) == int(party_pk):
@@ -53,7 +54,7 @@ async def sql_connect_to_party(message):
             }
                 await message.bot.send_message(message.from_user.id, f'Вы подключились к пати №{party_pk}')
 
-                requests.post(url="http://127.0.0.1:8000/connect_to_party/", json=json_data)
+                requests.post(url=CONNECT_TO_PARTY_URL, json=json_data)
 
                 for party_item in party_data_result:
                     if int(party_item.get('pk')) == int(party_pk):

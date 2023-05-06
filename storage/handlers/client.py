@@ -23,7 +23,7 @@ def register_handlers_client(dp: Dispatcher):
 
 # @dp.message_handler(commands=['start'])
 async def start(message: types.Message):
-    await message.answer(text=first_text, reply_markup=client_keyboards.ikb_start)
+    await message.bot.send_message(message.from_user.id, text=first_text, reply_markup=client_keyboards.ikb_start)
     await message.delete()
     await message.bot.send_message(admin_inside_id, f"В бота зашел @{message.from_user.username}")
 

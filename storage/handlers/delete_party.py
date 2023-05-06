@@ -5,10 +5,12 @@ from import_buffer import dp
 
 from keyboards.client_keyboards import ikb_delete_party
 
+from config import PARSE_PARTY_LIST_URL, DELETE_PARTY_URL
+
 
 @dp.callback_query_handler(lambda query: query.data == "ibtn_delete_party")
-async def delete_user(message):
-    data = json_parse_partys.get_json(url="http://127.0.0.1:8000/party_list/?format=json&page=1&page_size=1000")
+async def delete_party(message):
+    data = json_parse_partys.get_json(url=PARSE_PARTY_LIST_URL)
     result = data.get("results")
     is_party_found = False
     my_item = ""
@@ -18,7 +20,7 @@ async def delete_user(message):
             my_item = item
     if is_party_found:
         pk = my_item.get('pk')
-        requests.delete(url="http://127.0.0.1:8000/delete_party/"f'{pk}'"")
+        requests.delete(url=DELETE_PARTY_URL+f'{pk}'"")
     await message.bot.send_message(message.from_user.id, 'Ваша пати удалена', reply_markup=ikb_delete_party)
 
 

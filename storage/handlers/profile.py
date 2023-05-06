@@ -5,11 +5,13 @@ from import_buffer import dp
 
 from keyboards.client_keyboards import ikb_profile, ikb_start
 
+from config import PARSE_USER_LIST_URL
+
 
 @dp.callback_query_handler(lambda query: query.data == "ibtn_profile")
 async def profile(message):
     await message.answer("Подождите запрос обрабатывается")
-    data = json_parse_users.get_json(url="http://127.0.0.1:8000/users/?format=json&page=1&page_size=1000")
+    data = json_parse_users.get_json(url=PARSE_USER_LIST_URL)
     is_user_found = False
     my_item = ""
     for item in data:

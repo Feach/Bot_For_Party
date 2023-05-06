@@ -1,6 +1,7 @@
 # Файл создания json файла для работы с пати
 import requests
 import json
+from config import PARSE_PARTY_LIST_URL
 
 headers ={
     "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
@@ -15,7 +16,7 @@ def get_json(url):
 
 
 def main():
-    get_json(url="http://127.0.0.1:8000/party_list/?format=json")
+    get_json(url=PARSE_PARTY_LIST_URL)
 
 
 if __name__ == "__main__":

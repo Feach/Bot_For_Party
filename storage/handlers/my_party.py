@@ -5,10 +5,12 @@ from import_buffer import dp
 
 from keyboards.client_keyboards import ikb_help, ikb_my_party1, ikb_my_party2
 
+from config import PARSE_PARTY_LIST_URL
+
 
 @dp.callback_query_handler(lambda query: query.data == "ibtn_my_party")
 async def my_party(message):
-    data = json_parse_partys.get_json(url="http://127.0.0.1:8000/party_list/?format=json&page_size=1000")
+    data = json_parse_partys.get_json(url=PARSE_PARTY_LIST_URL)
     result = data.get("results")
     is_party_found = False
     my_item = ""

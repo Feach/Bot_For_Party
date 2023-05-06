@@ -12,6 +12,8 @@ from import_buffer import dp
 
 from handlers import profile
 
+from config import PARSE_USER_LIST_URL
+
 
 class FSMCreate_user(StatesGroup):
     nikname = State()
@@ -25,7 +27,7 @@ class FSMCreate_user(StatesGroup):
 @dp.callback_query_handler(lambda query: query.data == "ibtn_create_user")
 async def proverka_logina(message: types.Message): #Проверка авторизации пользователя(имеется ли в БД user_id)
     await message.bot.send_message(message.from_user.id, 'Подождите запрос обрабатывается')
-    data = json_parse_users.get_json(url="http://127.0.0.1:8000/users/?format=json&page=1&page_size=1000")
+    data = json_parse_users.get_json(url=PARSE_USER_LIST_URL)
     is_user_exists = False
 
     for item in data:

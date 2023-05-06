@@ -12,6 +12,8 @@ from data_base import json_parse_partys
 
 from keyboards.client_keyboards import ikb_help
 
+from config import PARSE_PARTY_LIST_URL, MAIN_PARTY_LIST_URL
+
 
 class FSMFilter_party(StatesGroup):
     city = State()
@@ -27,14 +29,12 @@ async def load_city(message: types.Message):
         async with state.proxy() as data:
             data['city'] = message.text
         await FSMFilter_party.next()
-        valid_city = json_parse_partys.get_json(url=f"http://127.0.0.1:8000/party_list/?format=json&page_size=1000")
+        valid_city = json_parse_partys.get_json(url=PARSE_PARTY_LIST_URL)
         valid_city_result = valid_city.get("results")
         for item in valid_city_result:
             if item.get('city') == data['city']:
 
-                requests.get(url=f"http://127.0.0.1:8000/party_list/{data['city']}/?format=json&page=1")
-
-                party_list = json_parse_partys.get_json(url=f"http://127.0.0.1:8000/party_list/{data['city']}/?format=json&page=1")
+                party_list = json_parse_partys.get_json(url=MAIN_PARTY_LIST_URL+f"{data['city']}/?format=json&page=1")
 
                 party_list_result = party_list.get("results")
 
@@ -90,7 +90,6 @@ async def load_city(message: types.Message):
                     if counter == 4:
                         break
 
-
                     @dp.callback_query_handler(lambda query: query.data == "next_page")
                     async def party_list_next_page(message: types.Message):
                         page_text = message["message"]["reply_markup"]["inline_keyboard"][1]
@@ -101,7 +100,7 @@ async def load_city(message: types.Message):
                         next_page = int(page_number)+1
                         previous_page = int(page_number)-1 if int(page_number) > 2 else 1
 
-                        url = f"http://127.0.0.1:8000/party_list/{data['city']}?format=json&page="+page_number
+                        url = MAIN_PARTY_LIST_URL+f"{data['city']}?format=json&page="+page_number
                         party_list = json_parse_partys.get_json(url=url)
                         party_list_result = party_list.get("results")
                         next_page_true = party_list.get("next")
@@ -177,7 +176,7 @@ async def load_city(message: types.Message):
                         next_page = int(page_number) + 1
                         previous_page = int(page_number) - 1 if int(page_number) > 2 else 1
 
-                        url = f"http://127.0.0.1:8000/party_list/{data['city']}?format=json&page=" + page_number
+                        url = MAIN_PARTY_LIST_URL+f"{data['city']}?format=json&page=" + page_number
                         party_list = json_parse_partys.get_json(url=url)
                         party_list_result = party_list.get("results")
                         previous_pagination_page = party_list.get("previous")

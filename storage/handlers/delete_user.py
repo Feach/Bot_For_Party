@@ -9,6 +9,8 @@ from data_base import json_parse_users
 
 from keyboards.client_keyboards import ikb_start
 
+from config import PARSE_USER_LIST_URL, DELETE_USER_URL
+
 
 @dp.callback_query_handler(lambda query: query.data == "ibtn_delete_user")
 async def delete_user(message):
@@ -19,7 +21,7 @@ async def delete_user(message):
 
 @dp.callback_query_handler(lambda query: query.data == "ibtn_delete_user_yes")
 async def delete_user_yes(message):
-    data = json_parse_users.get_json(url="http://127.0.0.1:8000/users/?format=json&page=1&page_size=1000")
+    data = json_parse_users.get_json(url=PARSE_USER_LIST_URL)
     is_user_found = False
     my_item = ""
     for item in data:
@@ -28,7 +30,7 @@ async def delete_user_yes(message):
             my_item = item
     if is_user_found:
         pk = my_item.get('pk')
-        requests.delete(url="http://127.0.0.1:8000/delete_users/"f'{pk}'"")
+        requests.delete(url=DELETE_USER_URL+f'{pk}'"")
     await message.bot.send_message(message.from_user.id, 'Ваш профиль удален', reply_markup=ikb_start)
 
 

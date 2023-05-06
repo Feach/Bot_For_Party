@@ -10,6 +10,8 @@ from import_buffer import dp
 
 from keyboards.client_keyboards import ikb_connect_to_party, ikb_pagination, main_menu, ikb_my_party1
 
+from config import DELETE_FROM_PARTY
+
 
 @dp.callback_query_handler(lambda query: query.data == "ibtn_leave_party")
 async def leave_party(group_id):
@@ -22,7 +24,7 @@ async def leave_party(group_id):
     }
     print(json_data)
 
-    requests.delete(url="http://127.0.0.1:8000/delete_from_party/", json=json_data)
+    requests.delete(url=DELETE_FROM_PARTY, json=json_data)
 
 
 
