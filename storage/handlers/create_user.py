@@ -1,4 +1,6 @@
 # FSM создания пользователя
+import os
+
 from aiogram import types, Dispatcher
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
@@ -26,10 +28,8 @@ class FSMCreate_user(StatesGroup):
 # начало создания юзера
 @dp.callback_query_handler(lambda query: query.data == "ibtn_create_user")
 async def proverka_logina(message: types.Message): #Проверка авторизации пользователя(имеется ли в БД user_id)
-    await message.bot.send_message(message.from_user.id, 'Подождите запрос обрабатывается')
     data = json_parse_users.get_json(url=PARSE_USER_LIST_URL)
     is_user_exists = False
-
     for item in data:
         if str(item.get('user_id')) == "@"+str(message.from_user.username):
             is_user_exists = True
@@ -38,7 +38,7 @@ async def proverka_logina(message: types.Message): #Проверка автор�
         await profile.profile(message)
     else:
         await FSMCreate_user.nikname.set()
-        await message.bot.send_message(message.from_user.id, 'ВАЖНО!\nПройдите процедуру до конца, до уведомления об успешном создании\n\nВведите имя')
+        await message.bot.send_message(message.from_user.id, '<b>ВАЖНО!</b>\nПройдите процедуру до конца, до уведомления об успешном создании\n\n<b>Введите имя</b>')
 
         # принимаем ответ на запрос ника
         @dp.message_handler(state=FSMCreate_user.nikname)
@@ -46,7 +46,7 @@ async def proverka_logina(message: types.Message): #Проверка автор�
             async with state.proxy() as data:
                 data['nikname'] = message.text
             await FSMCreate_user.next()
-            await message.bot.send_message(message.from_user.id, 'Выберите пол:',
+            await message.bot.send_message(message.from_user.id, '<b>Выберите пол:</b>',
                                 reply_markup=keyboards_create_gender)
 
         # принимаем ответ на запрос пола
@@ -56,12 +56,12 @@ async def proverka_logina(message: types.Message): #Проверка автор�
                 data['gender'] = message.text
             if data['gender'] == "Мужской":
                 await FSMCreate_user.next()
-                await message.bot.send_message(message.from_user.id, 'Введите ваш возраст:')
+                await message.bot.send_message(message.from_user.id, '<b>Введите ваш возраст:</b>')
             elif data['gender'] == "Женский":
                 await FSMCreate_user.next()
-                await message.bot.send_message(message.from_user.id, 'Введите ваш возраст:')
+                await message.bot.send_message(message.from_user.id, '<b>Введите ваш возраст:</b>')
             else:
-                await message.bot.send_message(message.from_user.id, 'Выберите пол (Мужской/Женский)',
+                await message.bot.send_message(message.from_user.id, '<b>Выберите пол (Мужской/Женский)</b>',
                                                reply_markup=keyboards_create_gender)
 
         # принимаем ответ на запрос возраста
@@ -72,9 +72,9 @@ async def proverka_logina(message: types.Message): #Проверка автор�
                 age_valid = data['age'].isdigit()
             if age_valid:
                 await FSMCreate_user.next()
-                await message.bot.send_message(message.from_user.id, 'Введите описание:')
+                await message.bot.send_message(message.from_user.id, '<b>Введите описание:</b>')
             else:
-                await message.bot.send_message(message.from_user.id, 'Введите ваш возраст (число)')
+                await message.bot.send_message(message.from_user.id, '<b>Введите ваш возраст (число)</b>')
 
         # принимаем ответ на запрос описани
         @dp.message_handler(state=FSMCreate_user.discription)
@@ -82,7 +82,7 @@ async def proverka_logina(message: types.Message): #Проверка автор�
             async with state.proxy() as data:
                 data['discription'] = message.text
             await FSMCreate_user.next()
-            await message.bot.send_message(message.from_user.id, 'Чтобы завершить создание - нажмите "Завершить"',
+            await message.bot.send_message(message.from_user.id, 'Чтобы завершить создание - нажмите "<b>Завершить</b>"',
                                 reply_markup=button_next)
 
         # принимаем ответ на запрос ID (принимается по нажатию кнопки выше) и отправляем данные в бд
@@ -96,6 +96,9 @@ async def proverka_logina(message: types.Message): #Проверка автор�
                 await profile.profile(message)
                 await state.finish()
             else:
-                await message.bot.send_message(message.from_user.id, 'Чтобы завершить создание - нажмите кнопку "Завершить"',
+                await message.bot.send_message(message.from_user.id, 'Чтобы завершить создание - нажмите кнопку "<b>Завершить</b>"',
                                                reply_markup=button_next)
+
+
+
 

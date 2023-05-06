@@ -8,6 +8,6 @@ import config
 
 storage = MemoryStorage()
 
-bot = Bot(config.API_TOKEN)
+bot = Bot(config.API_TOKEN, parse_mode="HTML")
 dp = Dispatcher(bot, storage=storage)
 

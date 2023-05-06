@@ -28,7 +28,6 @@ class FSMCreate_party(StatesGroup):
 # начало создания пати
 @dp.callback_query_handler(lambda query: query.data == "ibtn_create_party")
 async def proverka_party(message: types.Message): #Проверка наличия пати(имеется ли в БД leader_id)
-    await message.bot.send_message(message.from_user.id, 'Подождите запрос обрабатывается')
     parse = json_parse_partys.get_json(url=PARSE_PARTY_LIST_URL)
     data_parse = parse.get("results")
     is_user_exists = False
@@ -40,7 +39,7 @@ async def proverka_party(message: types.Message): #Проверка наличи
         await my_party.my_party(message)
     else:
         await FSMCreate_party.title.set()
-        await message.bot.send_message(message.from_user.id, 'Создайте пати\nВАЖНО!\nПройдите процедуру до конца, до уведомления об успешном создании\n\nВведите Тему:')
+        await message.bot.send_message(message.from_user.id, 'Создайте пати\n<b>ВАЖНО!</b>\nПройдите процедуру до конца, до уведомления об успешном создании\n\n<b>Введите Тему:</b>')
 
     # принимаем ответ на запрос темы
     @dp.message_handler(state=FSMCreate_party.title)
@@ -48,16 +47,15 @@ async def proverka_party(message: types.Message): #Проверка наличи
         async with state.proxy() as data:
             data['title'] = message.text
         await FSMCreate_party.next()
-        await message.bot.send_message(message.from_user.id, 'Введите Город:')
+        await message.bot.send_message(message.from_user.id, '<b>Введите Город:</b>')
 
     # принимаем ответ на запрос локации
     @dp.message_handler(state=FSMCreate_party.city)
     async def load_city(message: types.Message, state: FSMContext):
         async with state.proxy() as data:
             data['city'] = message.text
-            print('11111')
         await FSMCreate_party.next()
-        await message.bot.send_message(message.from_user.id, 'Введите локацию:')
+        await message.bot.send_message(message.from_user.id, '<b>Введите локацию:</b>')
 
     # принимаем ответ на запрос локации
     @dp.message_handler(state=FSMCreate_party.location)
@@ -65,7 +63,7 @@ async def proverka_party(message: types.Message): #Проверка наличи
         async with state.proxy() as data:
             data['location'] = message.text
         await FSMCreate_party.next()
-        await message.bot.send_message(message.from_user.id, 'Введите средний возраст Пати:')
+        await message.bot.send_message(message.from_user.id, '<b>Введите средний возраст Пати:</b>')
 
     # принимаем ответ на запрос возраста
     @dp.message_handler(state=FSMCreate_party.age)
@@ -75,9 +73,9 @@ async def proverka_party(message: types.Message): #Проверка наличи
             age_valid = data['age'].isdigit()
         if age_valid:
             await FSMCreate_party.next()
-            await message.bot.send_message(message.from_user.id, 'Введите описание и/или требования:')
+            await message.bot.send_message(message.from_user.id, '<b>Введите описание и/или требования:</b>')
         else:
-            await message.bot.send_message(message.from_user.id, 'Некоректно введенные данные\nВведите средний возраст Пати (число)')
+            await message.bot.send_message(message.from_user.id, 'Некоректно введенные данные\n<b>Введите средний возраст Пати (число)</b>')
 
 
     # принимаем ответ на запрос описани
@@ -86,7 +84,7 @@ async def proverka_party(message: types.Message): #Проверка наличи
         async with state.proxy() as data:
             data['discription'] = message.text
         await FSMCreate_party.next()
-        await message.bot.send_message(message.from_user.id, 'Запрос обрабатывается...\nНажмите "Далее"',
+        await message.bot.send_message(message.from_user.id, 'Запрос обрабатывается...\nНажмите <b>"Далее"</b>',
                                        reply_markup=button_next12)
 
     # принимаем ответ на установку дефолтного значения юзеров (устанавливается при нажатии кнопки выше)
@@ -96,9 +94,9 @@ async def proverka_party(message: types.Message): #Проверка наличи
             data['default_users'] = 1
         if message.text == "Далее":
             await FSMCreate_party.next()
-            await message.bot.send_message(message.from_user.id, 'Введите максимальное кол-во пользователей')
+            await message.bot.send_message(message.from_user.id, '<b>Введите максимальное кол-во пользователей</b>')
         else:
-            await message.bot.send_message(message.from_user.id, 'Ошибка!\nДля продолжения нажмите кнопку "Далее"',
+            await message.bot.send_message(message.from_user.id, '<b>Ошибка!</b>\nДля продолжения нажмите кнопку <b>"Далее"</b>',
                                            reply_markup=button_next12)
 
     # принимаем ответ на запрос макс. кол-ва юзеров
@@ -109,10 +107,10 @@ async def proverka_party(message: types.Message): #Проверка наличи
             max_users_valid = data['max_users'].isdigit()
         if max_users_valid:
             await FSMCreate_party.next()
-            await message.bot.send_message(message.from_user.id, 'Чтобы завершить создание - нажмите "Завершить"',
+            await message.bot.send_message(message.from_user.id, 'Чтобы завершить создание - нажмите <b>"Завершить"</b>',
                                 reply_markup=button_next)
         else:
-            await message.bot.send_message(message.from_user.id, 'Введите максимальное кол-во пользователей (число)')
+            await message.bot.send_message(message.from_user.id, '<b>Введите максимальное кол-во пользователей (число)</b>')
 
     # принимаем ответ на запрос ID (принимается автоматически по кнопки выше)и отправляем данные в бд
     @dp.message_handler(state=FSMCreate_party.leader_id)
@@ -122,9 +120,9 @@ async def proverka_party(message: types.Message): #Проверка наличи
         if message.text == "Завершить":
             await party_db.sql_create_party(state)
             await state.finish()
-            await message.bot.send_message(message.from_user.id, 'Пати успешно создано')
+            await message.bot.send_message(message.from_user.id, '<b>Пати успешно создано!</b>')
             await my_party.my_party(message)
         else:
-            await message.bot.send_message(message.from_user.id, 'Чтобы завершить создание - нажмите "Завершить"',
+            await message.bot.send_message(message.from_user.id, 'Чтобы завершить создание - нажмите <b>"Завершить"</b>',
                                            reply_markup=button_next)
 

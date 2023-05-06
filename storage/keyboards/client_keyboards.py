@@ -14,8 +14,8 @@ ibtn_delete_party = InlineKeyboardButton('Удалить пати', callback_dat
 ibtn_leave_party = InlineKeyboardButton('Выйти из пати', callback_data='ibtn_leave_party')
 ibtn_delete_user_yes = InlineKeyboardButton('Да', callback_data='ibtn_delete_user_yes')
 ibtn_delete_user_no = InlineKeyboardButton('Нет', callback_data='ibtn_delete_user_no')
-
-
+ibtn_delete_party_yes = InlineKeyboardButton('Да', callback_data='ibtn_delete_party_yes')
+ibtn_delete_party_no = InlineKeyboardButton('Нет', callback_data='ibtn_delete_party_no')
 # -------
 ibtn_previous = InlineKeyboardButton('Назад', callback_data='ibtn_previous')
 ibtn_next = InlineKeyboardButton('Далее', callback_data='ibtn_next')
@@ -99,4 +99,6 @@ ikb_delete_user = InlineKeyboardMarkup().add(ibtn_delete_user)
 ikb_delete_party = InlineKeyboardMarkup().add(ibtn_delete_party)
 # -------
 ikb_delete_user_yes_no = InlineKeyboardMarkup().row(ibtn_delete_user_no, ibtn_delete_user_yes)
+ikb_delete_party_yes_no = InlineKeyboardMarkup().row(ibtn_delete_party_no, ibtn_delete_party_yes)
+
 

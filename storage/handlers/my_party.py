@@ -26,54 +26,54 @@ async def my_party(message):
                 if my_users_id == "@"+str(message.from_user.username):
                     my_partys_list.append(item)
     if is_party_found:
-        await message.bot.send_message(message.from_user.id, 'Ваша Пати:')
+        await message.bot.send_message(message.from_user.id, '<b>Ваша Пати:</b>')
         users = my_item.get('users')
         my_users = ""
         for user in users:
-            my_user = f"-----------\n{'Имя: '} {user.get('name')}\n" \
-                      f"{'Пол: '} {user.get('gender')}\n" \
-                      f"{'Возраст: '} {user.get('age')}\n" \
-                      f"{'Описание: '} {user.get('discription')}\n" \
-                      f"{'ID: '} {user.get('user_id')}\n"
+            my_user = f"<b>-----------</b>\n{'<b>Имя: </b>'} {user.get('name')}\n" \
+                      f"{'<b>Пол: </b>'} {user.get('gender')}\n" \
+                      f"{'<b>Возраст: </b>'} {user.get('age')}\n" \
+                      f"{'<b>Описание: </b>'} {user.get('discription')}\n" \
+                      f"{'<b>ID: </b>'} {user.get('user_id')}\n"
             my_users = my_users + my_user
         if my_users == "":
-            my_users = str("В Вашей группе нет пользователей")
+            my_users = str("<b>В Вашей группе нет пользователей</b>")
 
-        cart = f"{'Номер группы: '} {my_item.get('pk')}\n" \
-               f"{'Тема: '} {my_item.get('title')}\n" \
-               f"{'Локация: '} {my_item.get('location')}\n" \
-               f"{'Средний возраст: '} {my_item.get('age')}\n" \
-               f"{'Описание: '} {my_item.get('discription')}\n" \
-               f"{'Кол-во пользователей: '} {my_item.get('user_count')} | {my_item.get('user_max')}\n" \
-               f"{'Лидер: '} {my_item.get('leader_id')}\n" \
-               f"{'Пользователи: '} \n " \
+        cart = f"{'<b>Номер группы: </b>'} {my_item.get('pk')}\n" \
+               f"{'<b>Тема: </b>'} {my_item.get('title')}\n" \
+               f"{'<b>Локация: </b>'} {my_item.get('location')}\n" \
+               f"{'<b>Средний возраст: </b>'} {my_item.get('age')}\n" \
+               f"{'<b>Описание: </b>'} {my_item.get('discription')}\n" \
+               f"{'<b>Кол-во пользователей: </b>'} {my_item.get('user_count')} | {my_item.get('user_max')}\n" \
+               f"{'<b>Лидер: </b>'} {my_item.get('leader_id')}\n" \
+               f"{'<b>Пользователи: </b>'} \n " \
                f"{my_users}\n "
         await message.bot.send_message(message.from_user.id, cart, reply_markup=ikb_my_party1)
-        await message.bot.send_message(message.from_user.id, "===================================")
+        await message.bot.send_message(message.from_user.id, "<b>===================================</b>")
 
     if my_partys_list:
-        await message.bot.send_message(message.from_user.id, 'Вы находить в пати:')
+        await message.bot.send_message(message.from_user.id, '<b>Вы находить в пати:</b>')
         for party in my_partys_list:
             users = party.get('users')
             my_users = ""
             for user in users:
-                my_user = f"-----------\n{'Имя: '} {user.get('name')}\n" \
-                          f"{'Пол: '} {user.get('gender')}\n" \
-                          f"{'Возраст: '} {user.get('age')}\n" \
-                          f"{'Описание: '} {user.get('discription')}\n" \
-                          f"{'ID: '} {user.get('user_id')}\n"
+                my_user = f"-----------\n{'<b>Имя: </b>'} {user.get('name')}\n" \
+                          f"{'<b>Пол: </b>'} {user.get('gender')}\n" \
+                          f"{'<b>Возраст: </b>'} {user.get('age')}\n" \
+                          f"{'<b>Описание: </b>'} {user.get('discription')}\n" \
+                          f"{'<b>ID: </b>'} {user.get('user_id')}\n"
                 my_users = my_users + my_user
             if my_users == "":
-                my_users = str("В Вашей группе нет пользователей")
+                my_users = str("<b>В Вашей группе нет пользователей</b>")
 
-            cart = f"{'Номер группы: '} {party.get('pk')}\n" \
-                   f"{'Тема: '} {party.get('title')}\n" \
-                   f"{'Локация: '} {party.get('location')}\n" \
-                   f"{'Средний возраст: '} {party.get('age')}\n" \
-                   f"{'Описание: '} {party.get('discription')}\n" \
-                   f"{'Кол-во пользователей: '} {party.get('user_count')} | {party.get('user_max')}\n" \
-                   f"{'Лидер: '} {party.get('leader_id')}\n" \
-                   f"{'Пользователи: '} \n " \
+            cart = f"{'<b>Номер группы: </b>'} {party.get('pk')}\n" \
+                   f"{'<b>Тема: </b>'} {party.get('title')}\n" \
+                   f"{'<b>Локация: </b>'} {party.get('location')}\n" \
+                   f"{'<b>Средний возраст: </b>'} {party.get('age')}\n" \
+                   f"{'<b>Описание: </b>'} {party.get('discription')}\n" \
+                   f"{'<b>Кол-во пользователей: </b>'} {party.get('user_count')} <b>|</b> {party.get('user_max')}\n" \
+                   f"{'<b>Лидер: </b>'} {party.get('leader_id')}\n" \
+                   f"{'<b>Пользователи: </b>'} \n " \
                    f"{my_users}\n "
 
             ibtn_leave_party = InlineKeyboardMarkup()
@@ -96,7 +96,7 @@ async def my_party(message):
             await message.bot.send_message(message.from_user.id, cart, reply_markup=ibtn_leave_party)
 
     else:
-        await message.bot.send_message(message.from_user.id, 'У вас еще нет своей пати и вы не состоите ни в какой пати', reply_markup=ikb_my_party1)
+        await message.bot.send_message(message.from_user.id, '<b>У вас еще нет своей пати и вы не состоите ни в какой пати</b>', reply_markup=ikb_my_party1)
 
 
 

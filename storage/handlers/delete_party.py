@@ -3,13 +3,20 @@ import requests
 
 from import_buffer import dp
 
-from keyboards.client_keyboards import ikb_delete_party
+from keyboards.client_keyboards import ikb_delete_party, ikb_delete_party_yes_no, ikb_help
 
 from config import PARSE_PARTY_LIST_URL, DELETE_PARTY_URL
 
 
 @dp.callback_query_handler(lambda query: query.data == "ibtn_delete_party")
 async def delete_party(message):
+    await message.bot.send_message(message.from_user.id, '<b>Вы собираетесь удалить свой профиль</b>\n'
+                                                         'Для удаления нажмите - "Да"\n'
+                                                         'Отменить - <b>"Нет"</b>', reply_markup=ikb_delete_party_yes_no)
+
+
+@dp.callback_query_handler(lambda query: query.data == "ibtn_delete_party_yes")
+async def delete_party_yes(message):
     data = json_parse_partys.get_json(url=PARSE_PARTY_LIST_URL)
     result = data.get("results")
     is_party_found = False
@@ -21,7 +28,12 @@ async def delete_party(message):
     if is_party_found:
         pk = my_item.get('pk')
         requests.delete(url=DELETE_PARTY_URL+f'{pk}'"")
-    await message.bot.send_message(message.from_user.id, 'Ваша пати удалена', reply_markup=ikb_delete_party)
+    await message.bot.send_message(message.from_user.id, '<b>Ваша пати удалена</b>', reply_markup=ikb_help)
+
+
+@dp.callback_query_handler(lambda query: query.data == "ibtn_delete_party_no")
+async def delete_party_no(message):
+    await message.bot.send_message(message.from_user.id, '<b>Удаление пати Отменено</b>', reply_markup=ikb_help)
 
 
 

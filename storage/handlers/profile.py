@@ -10,7 +10,6 @@ from config import PARSE_USER_LIST_URL
 
 @dp.callback_query_handler(lambda query: query.data == "ibtn_profile")
 async def profile(message):
-    await message.answer("Подождите запрос обрабатывается")
     data = json_parse_users.get_json(url=PARSE_USER_LIST_URL)
     is_user_found = False
     my_item = ""
@@ -19,13 +18,13 @@ async def profile(message):
             is_user_found = True
             my_item = item
     if is_user_found:
-        await message.bot.send_message(message.from_user.id, 'Ваш профиль:')
+        await message.bot.send_message(message.from_user.id, '<b>Ваш профиль:</b>')
 
-        cart = f"{'Имя: '} {my_item.get('name')}\n" \
-               f"{'Пол: '} {my_item.get('gender')}\n" \
-               f"{'Возраст: '} {my_item.get('age')}\n" \
-               f"{'Описание: '} {my_item.get('discription')}\n" \
-               f"{'ID: '} {my_item.get('user_id')}\n"
+        cart = f"{'<b>Имя: </b>'} {my_item.get('name')}\n" \
+               f"{'<b>Пол: </b>'} {my_item.get('gender')}\n" \
+               f"{'<b>Возраст: </b>'} {my_item.get('age')}\n" \
+               f"{'<b>Описание: </b>'} {my_item.get('discription')}\n" \
+               f"{'<b>ID: </b>'} {my_item.get('user_id')}\n"
         await message.bot.send_message(message.from_user.id, cart, reply_markup=ikb_profile)
     else:
-        await message.bot.send_message(message.from_user.id, 'У вас нет профиля. Создайте', reply_markup=ikb_start)
+        await message.bot.send_message(message.from_user.id, 'У вас нет профиля. \nДля создания своего профиля нажмите на кнопку 👇', reply_markup=ikb_start)

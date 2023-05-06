@@ -26,7 +26,7 @@ class FSMUpdate_user(StatesGroup):
 async def proverka_logina(message: types.Message):
 
     await FSMUpdate_user.nikname.set()
-    await message.bot.send_message(message.from_user.id, 'ВАЖНО!\nПройдите процедуру до конца, до уведомления об успешном изменении\n\nВведите имя')
+    await message.bot.send_message(message.from_user.id, '<b>ВАЖНО!</b>\nПройдите процедуру до конца, до уведомления об успешном изменении\n\n<b>Введите имя</b>')
 
     # принимаем ответ на запрос ника
     @dp.message_handler(state=FSMUpdate_user.nikname)
@@ -34,7 +34,7 @@ async def proverka_logina(message: types.Message):
         async with state.proxy() as data:
             data['nikname'] = message.text
         await FSMUpdate_user.next()
-        await message.bot.send_message(message.from_user.id, 'Выберите пол:',
+        await message.bot.send_message(message.from_user.id, '<b>Выберите пол:</b>',
                             reply_markup=keyboards_create_gender)
 
     # принимаем ответ на запрос пола
@@ -44,12 +44,12 @@ async def proverka_logina(message: types.Message):
             data['gender'] = message.text
         if data['gender'] == "Мужской":
             await FSMUpdate_user.next()
-            await message.bot.send_message(message.from_user.id, 'Введите ваш возраст:')
+            await message.bot.send_message(message.from_user.id, '<b>Введите ваш возраст:</b>')
         elif data['gender'] == "Женский":
             await FSMUpdate_user.next()
-            await message.bot.send_message(message.from_user.id, 'Введите ваш возраст:')
+            await message.bot.send_message(message.from_user.id, '<b>Введите ваш возраст:</b>')
         else:
-            await message.bot.send_message(message.from_user.id, 'Выберите пол (Мужской/Женский)',
+            await message.bot.send_message(message.from_user.id, 'Выберите пол (<b>Мужской/Женский</b>)',
                                            reply_markup=keyboards_create_gender)
 
     # принимаем ответ на запрос возраста
@@ -60,9 +60,9 @@ async def proverka_logina(message: types.Message):
             age_valid = data['age'].isdigit()
         if age_valid:
             await FSMUpdate_user.next()
-            await message.bot.send_message(message.from_user.id, 'Введите описание:')
+            await message.bot.send_message(message.from_user.id, '<b>Введите описание:</b>')
         else:
-            await message.bot.send_message(message.from_user.id, 'Введите ваш возраст (число)')
+            await message.bot.send_message(message.from_user.id, '<b>Введите ваш возраст (число)</b>')
 
     # принимаем ответ на запрос описани
     @dp.message_handler(state=FSMUpdate_user.discription)
@@ -70,7 +70,7 @@ async def proverka_logina(message: types.Message):
         async with state.proxy() as data:
             data['discription'] = message.text
         await FSMUpdate_user.next()
-        await message.bot.send_message(message.from_user.id, 'Чтобы завершить создание - нажмите "Завершить"',
+        await message.bot.send_message(message.from_user.id, 'Чтобы завершить создание - нажмите <b>"Завершить"</b>',
                             reply_markup=button_next)
 
     # принимаем ответ на запрос ID (принимается по нажатию кнопки выше) и отправляем данные в бд
@@ -84,6 +84,6 @@ async def proverka_logina(message: types.Message):
             await state.finish()
         else:
             await message.bot.send_message(message.from_user.id,
-                                           'Чтобы завершить создание - нажмите кнопку "Завершить"',
+                                           'Чтобы завершить создание - нажмите кнопку <b>"Завершить"</b>',
                                            reply_markup=button_next)
 

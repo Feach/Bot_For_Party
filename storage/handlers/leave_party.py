@@ -22,7 +22,6 @@ async def leave_party(group_id):
         "party_pk": party_pk,
         "user_id": "@" + user_id
     }
-    print(json_data)
 
     requests.delete(url=DELETE_FROM_PARTY, json=json_data)
 

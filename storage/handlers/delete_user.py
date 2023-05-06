@@ -15,8 +15,8 @@ from config import PARSE_USER_LIST_URL, DELETE_USER_URL
 @dp.callback_query_handler(lambda query: query.data == "ibtn_delete_user")
 async def delete_user(message):
     await message.bot.send_message(message.from_user.id, 'Вы собираетесь удалить свой профиль\n'
-                                                         'Для удаления нажмите - "Да"\n'
-                                                         'Отменить - "Нет"', reply_markup=ikb_delete_user_yes_no)
+                                                         'Для удаления нажмите - <b>"Да"</b>\n'
+                                                         'Отменить - <b>"Нет"</b>', reply_markup=ikb_delete_user_yes_no)
 
 
 @dp.callback_query_handler(lambda query: query.data == "ibtn_delete_user_yes")
@@ -31,12 +31,12 @@ async def delete_user_yes(message):
     if is_user_found:
         pk = my_item.get('pk')
         requests.delete(url=DELETE_USER_URL+f'{pk}'"")
-    await message.bot.send_message(message.from_user.id, 'Ваш профиль удален', reply_markup=ikb_start)
+    await message.bot.send_message(message.from_user.id, '<b>Ваш профиль удален</b>', reply_markup=ikb_start)
 
 
 @dp.callback_query_handler(lambda query: query.data == "ibtn_delete_user_no")
 async def delete_user_no(message):
-    await message.bot.send_message(message.from_user.id, 'Я рад что ты решил остаться с нами!', reply_markup=ikb_help)
+    await message.bot.send_message(message.from_user.id, '<b>Я рад что ты решил остаться с нами!</b>', reply_markup=ikb_help)
 
 
 
