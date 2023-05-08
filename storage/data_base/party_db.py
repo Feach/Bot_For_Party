@@ -10,7 +10,7 @@ from import_buffer import dp
 
 from keyboards.client_keyboards import ikb_connect_to_party, ikb_pagination, main_menu, ikb_my_party1
 
-from config import CREATE_PARTY_URL, PARSE_PARTY_LIST_URL, PARSE_USER_LIST_URL, CONNECT_TO_PARTY_URL
+from config import CREATE_PARTY_URL, PARSE_PARTY_LIST_URL, PARSE_USER_LIST_URL, CONNECT_TO_PARTY_URL, STATISTIC_PARTY_CREATE_URL
 
 # подключение бд к боту
 def sql_party_start():
@@ -35,6 +35,7 @@ async def sql_create_party(state):
             "leader_id": data['leader_id'],
         }
     requests.post(url=CREATE_PARTY_URL, json=json_data)
+    requests.post(url=STATISTIC_PARTY_CREATE_URL, json=json_data)
 
 
 @dp.callback_query_handler(lambda query: query.data == "connect_to_data")

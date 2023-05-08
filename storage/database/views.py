@@ -145,7 +145,84 @@ class DeleteFromPartyView(views.APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+class StatisticCreateUserView(views.APIView):
+    def post(self, request, format=None):
+        name = request.data.get('name')
+        gender = request.data.get('gender')
+        age = request.data.get('age')
+        discription = request.data.get('discription')
+        user_id = request.data.get('user_id')
+        inside_id = request.data.get('inside_id')
+        models.StatisticUserCreate.objects.create(name=name,
+                                   gender=gender,
+                                   age=age,
+                                   discription=discription,
+                                   user_id=user_id,
+                                   inside_id=inside_id
+                                   )
+        return Response('test', status=status.HTTP_201_CREATED)
 
 
+class StatisticCreatePartyView(views.APIView):
 
+    def post(self, request, format=None):
+        title = request.data.get('title')
+        city = request.data.get('city')
+        location = request.data.get('location')
+        age = request.data.get('age')
+        discription = request.data.get('discription')
+        default_users = request.data.get('default_users')
+        max_users = request.data.get('max_users')
+        leader_id = request.data.get('leader_id')
+        models.StatisticPartyCreate.objects.create(title=title,
+                                                   city=city,
+                                                   location=location,
+                                                   age=age,
+                                                   discription=discription,
+                                                   user_now=default_users,
+                                                   user_max=max_users,
+                                                   leader_id=leader_id
+                                                   )
+        return Response('test', status=status.HTTP_201_CREATED)
+
+
+class StatisticDeleteUserView(views.APIView):
+    def post(self, request, format=None):
+        name = request.data.get('name')
+        gender = request.data.get('gender')
+        age = request.data.get('age')
+        discription = request.data.get('discription')
+        user_id = request.data.get('user_id')
+        inside_id = request.data.get('inside_id')
+        models.StatisticUserDelete.objects.create(name=name,
+                                   gender=gender,
+                                   age=age,
+                                   discription=discription,
+                                   user_id=user_id,
+                                   inside_id=inside_id
+                                   )
+        return Response('test', status=status.HTTP_201_CREATED)
+
+
+class StatisticDeletePartyView(views.APIView):
+
+    def post(self, request, format=None):
+        title = request.data.get('title')
+        city = request.data.get('city')
+        location = request.data.get('location')
+        age = request.data.get('age')
+        discription = request.data.get('discription')
+        default_users = request.data.get('default_users')
+        max_users = request.data.get('max_users')
+        leader_id = request.data.get('leader_id')
+        models.StatisticPartyDelete.objects.create(title=title,
+                                                   city=city,
+                                                   location=location,
+                                                   age=age,
+                                                   discription=discription,
+                                                   user_now=default_users,
+                                                   user_max=max_users,
+                                                   leader_id=leader_id
+                                                   )
+        return Response('test', status=status.HTTP_201_CREATED)
 

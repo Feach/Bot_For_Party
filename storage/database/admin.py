@@ -13,6 +13,28 @@ class PartyAdmin(admin.ModelAdmin):
     filter_horizontal = ['users']
 
 
+class StatisticUserCreateAdmin(admin.ModelAdmin):
+    list_display = ['pk', 'name', 'gender', 'age', 'user_id', 'inside_id', 'create_at']
+    # list_editable = ['gender', 'age', 'discription', 'user_id'] редактирование полей в админке
+
+
+class StatisticPartyCreateAdmin(admin.ModelAdmin):
+    list_display = ['pk', 'city', 'location', 'age', 'user_max', 'leader_id', 'create_at']
+
+
+class StatisticUserDeleteAdmin(admin.ModelAdmin):
+    list_display = ['pk', 'name', 'gender', 'age', 'user_id', 'inside_id', 'create_at']
+    # list_editable = ['gender', 'age', 'discription', 'user_id'] редактирование полей в админке
+
+
+class StatisticPartyDeleteAdmin(admin.ModelAdmin):
+    list_display = ['pk', 'city', 'location', 'age', 'user_max', 'leader_id', 'create_at']
+
+
 admin.site.register(models.User, UserAdmin)
 admin.site.register(models.Party, PartyAdmin)
+admin.site.register(models.StatisticUserCreate, StatisticUserCreateAdmin)
+admin.site.register(models.StatisticPartyCreate, StatisticPartyCreateAdmin)
+admin.site.register(models.StatisticUserDelete, StatisticUserDeleteAdmin)
+admin.site.register(models.StatisticPartyDelete, StatisticPartyDeleteAdmin)
 

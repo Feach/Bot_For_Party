@@ -8,7 +8,7 @@ from data_base import json_parse_users
 
 from keyboards.client_keyboards import ikb_profile
 
-from config import CREATE_USER_URL, UPDATE_PROFILE
+from config import CREATE_USER_URL, UPDATE_PROFILE_URL, STATISTIC_USER_CREATE_URL
 
 
 # подключение бд к боту
@@ -32,6 +32,7 @@ async def sql_create_user(state):
             "inside_id": data['inside_id']
         }
     requests.post(url=CREATE_USER_URL, json=json_data)
+    requests.post(url=STATISTIC_USER_CREATE_URL, json=json_data)
 
 
 async def sql_update_profile(state):
@@ -43,5 +44,5 @@ async def sql_update_profile(state):
             "discription": data['discription'],
             "user_id": data['user_id']
         }
-    requests.post(url=UPDATE_PROFILE, json=json_data)
+    requests.post(url=UPDATE_PROFILE_URL, json=json_data)
 
