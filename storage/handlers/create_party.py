@@ -32,7 +32,7 @@ async def proverka_party(message: types.Message): #Проверка наличи
     data_parse = parse.get("results")
     is_user_exists = False
     for item in data_parse:
-        if str(item.get('leader_id')) == str(message.from_user.id):
+        if str(item.get('leader_id')) == "@"+str(message.from_user.username):
             is_user_exists = True
     if is_user_exists:
         await message.bot.send_message(message.from_user.id, 'Вами уже создана пати')
