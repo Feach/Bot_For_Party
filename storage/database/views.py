@@ -22,14 +22,33 @@ class PartyListView(ListAPIView):
     serializer_class = PartySerializator
 
 
-class PartyListWithFilter(ListAPIView):
-    # queryset = models.Party.objects.filter(city=city).prefetch_related("users")
+class PartyListWithFilterOnlyCity(ListAPIView):
     pagination_class = PartyListPagination
     serializer_class = PartySerializator
 
     def get_queryset(self):
         city = self.kwargs.get("city")
         return models.Party.objects.filter(city=city).prefetch_related("users").order_by('pk')
+
+
+class PartyListWithFilterCategory(ListAPIView):
+    pagination_class = PartyListPagination
+    serializer_class = PartySerializator
+
+    def get_queryset(self):
+        category = self.kwargs.get("category")
+        return models.Party.objects.filter(category=category).prefetch_related("users").order_by('pk')
+
+
+class PartyListWithFilterCategoryAndCity(ListAPIView):
+    print('view')
+    pagination_class = PartyListPagination
+    serializer_class = PartySerializator
+
+    def get_queryset(self):
+        city = self.kwargs.get("city")
+        category = self.kwargs.get("category")
+        return models.Party.objects.filter(category=category, city=city).prefetch_related("users").order_by('pk')
 
 
 # Получение списка юзеров
