@@ -43,6 +43,8 @@ async def my_party(message):
 
         cart = f"{'<b>Номер группы: </b>'} {my_item.get('pk')}\n" \
                f"{'<b>Тема: </b>'} {my_item.get('title')}\n" \
+               f"{'<b>Категория: </b>'} {my_item.get('category')}\n" \
+               f"{'<b>Город: </b>'} {my_item.get('city')}\n" \
                f"{'<b>Локация: </b>'} {my_item.get('location')}\n" \
                f"{'<b>Средний возраст: </b>'} {my_item.get('age')}\n" \
                f"{'<b>Описание: </b>'} {my_item.get('discription')}\n" \

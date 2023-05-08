@@ -16,6 +16,7 @@ from config import PARSE_PARTY_LIST_URL
 
 class FSMCreate_party(StatesGroup):
     title = State()
+    category = State()
     city = State()
     location = State()
     age = State()
@@ -46,6 +47,13 @@ async def proverka_party(message: types.Message): #Проверка наличи
     async def load_title(message: types.Message, state: FSMContext):
         async with state.proxy() as data:
             data['title'] = message.text
+        await FSMCreate_party.next()
+        await message.bot.send_message(message.from_user.id, '<b>Введите Категорию:</b>')
+
+    @dp.message_handler(state=FSMCreate_party.category)
+    async def load_category(message: types.Message, state: FSMContext):
+        async with state.proxy() as data:
+            data['category'] = message.text
         await FSMCreate_party.next()
         await message.bot.send_message(message.from_user.id, '<b>Введите Город:</b>')
 

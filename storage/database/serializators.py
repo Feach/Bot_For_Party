@@ -28,6 +28,7 @@ class PartySerializator(serializers.ModelSerializer):
         fields = [
             'pk',
             'title',
+            'category',
             'city',
             'location',
             'age',

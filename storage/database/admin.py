@@ -9,7 +9,7 @@ class UserAdmin(admin.ModelAdmin):
 
 
 class PartyAdmin(admin.ModelAdmin):
-    list_display = ['pk', 'title', 'city', 'location', 'age', 'discription', 'user_count', 'user_max', 'leader_id', 'create_at']
+    list_display = ['pk', 'category', 'title', 'city', 'location', 'age', 'discription', 'user_count', 'user_max', 'leader_id', 'create_at']
     filter_horizontal = ['users']
 
 
@@ -19,7 +19,7 @@ class StatisticUserCreateAdmin(admin.ModelAdmin):
 
 
 class StatisticPartyCreateAdmin(admin.ModelAdmin):
-    list_display = ['pk', 'city', 'location', 'age', 'user_max', 'leader_id', 'create_at']
+    list_display = ['pk', 'category', 'city', 'location', 'age', 'user_max', 'leader_id', 'create_at']
 
 
 class StatisticUserDeleteAdmin(admin.ModelAdmin):
@@ -28,7 +28,7 @@ class StatisticUserDeleteAdmin(admin.ModelAdmin):
 
 
 class StatisticPartyDeleteAdmin(admin.ModelAdmin):
-    list_display = ['pk', 'city', 'location', 'age', 'user_max', 'leader_id', 'create_at']
+    list_display = ['pk', 'category', 'city', 'location', 'age', 'user_max', 'leader_id', 'create_at']
 
 
 admin.site.register(models.User, UserAdmin)

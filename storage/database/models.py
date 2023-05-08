@@ -22,6 +22,7 @@ class User(models.Model):
 
 class Party(models.Model):
     title = models.CharField(max_length=50)
+    category = models.CharField(max_length=50)
     city = models.CharField(max_length=50)
     location = models.CharField(max_length=50)
     age = models.CharField(max_length=50)
@@ -63,6 +64,7 @@ class StatisticUserCreate(models.Model):
 
 class StatisticPartyCreate(models.Model):
     title = models.CharField(max_length=50)
+    category = models.CharField(max_length=50)
     city = models.CharField(max_length=50)
     location = models.CharField(max_length=50)
     age = models.CharField(max_length=50)
@@ -104,6 +106,7 @@ class StatisticUserDelete(models.Model):
 
 class StatisticPartyDelete(models.Model):
     title = models.CharField(max_length=50)
+    category = models.CharField(max_length=50)
     city = models.CharField(max_length=50)
     location = models.CharField(max_length=50)
     age = models.CharField(max_length=50)

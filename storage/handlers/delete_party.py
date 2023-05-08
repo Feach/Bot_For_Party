@@ -30,6 +30,7 @@ async def delete_party_yes(message):
         requests.delete(url=DELETE_PARTY_URL+f'{pk}'"")
         json_data = {
             "title": my_item.get('title'),
+            "category": my_item.get('category'),
             "city": my_item.get('city'),
             "location": my_item.get('location'),
             "age": my_item.get('age'),

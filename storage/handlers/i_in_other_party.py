@@ -38,6 +38,7 @@ async def i_in_other_party(message):
 
             cart = f"{'<b>Номер группы: </b>'} {party.get('pk')}\n" \
                    f"{'<b>Тема: </b>'} {party.get('title')}\n" \
+                   f"{'<b>Категория: </b>'} {party.get('category')}\n" \
                    f"{'<b>Локация: </b>'} {party.get('location')}\n" \
                    f"{'<b>Средний возраст: </b>'} {party.get('age')}\n" \
                    f"{'<b>Описание: </b>'} {party.get('discription')}\n" \

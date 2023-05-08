@@ -12,6 +12,7 @@ from keyboards.client_keyboards import ikb_connect_to_party, ikb_pagination, mai
 
 from config import CREATE_PARTY_URL, PARSE_PARTY_LIST_URL, PARSE_USER_LIST_URL, CONNECT_TO_PARTY_URL, STATISTIC_PARTY_CREATE_URL
 
+
 # подключение бд к боту
 def sql_party_start():
     connection = sqlite3.connect('storage/db.sqlite3')
@@ -26,6 +27,7 @@ async def sql_create_party(state):
     async with state.proxy() as data:
         json_data = {
             "title": data['title'],
+            "category": data['category'],
             "city": data['city'],
             "location": data['location'],
             "age": data['age'],

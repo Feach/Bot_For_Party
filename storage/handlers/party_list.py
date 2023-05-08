@@ -52,6 +52,7 @@ async def load_city(message: types.Message):
 
                 cart = f"{'<b>Номер группы: </b>'} {item.get('pk')}\n" \
                        f"{'<b>Тема: </b>'} {item.get('title')}\n" \
+                       f"{'<b>Категория: </b>'} {item.get('category')}\n" \
                        f"{'<b>Город: </b>'} {item.get('city')}\n" \
                        f"{'<b>Локация: </b>'} {item.get('location')}\n" \
                        f"{'<b>Средний возраст: </b>'} {item.get('age')}\n" \
@@ -124,6 +125,7 @@ async def load_city(message: types.Message):
 
                 cart = f"{'<b>Номер группы: </b>'} {item.get('pk')}\n" \
                        f"{'<b>Тема: </b>'} {item.get('title')}\n" \
+                       f"{'<b>Категория: </b>'} {item.get('category')}\n" \
                        f"{'<b>Город: </b>'} {item.get('city')}\n" \
                        f"{'<b>Локация: </b>'} {item.get('location')}\n" \
                        f"{'<b>Средний возраст: </b>'} {item.get('age')}\n" \
@@ -199,6 +201,7 @@ async def load_city(message: types.Message):
 
                 cart = f"{'<b>Номер группы: </b>'} {item.get('pk')}\n" \
                        f"{'<b>Тема: </b>'} {item.get('title')}\n" \
+                       f"{'<b>Категория: </b>'} {item.get('category')}\n" \
                        f"{'<b>Город: </b>'} {item.get('city')}\n" \
                        f"{'<b>Локация: </b>'} {item.get('location')}\n" \
                        f"{'<b>Средний возраст: </b>'} {item.get('age')}\n" \

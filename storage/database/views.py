@@ -84,6 +84,7 @@ class CreatePartyView(views.APIView):
 
     def post(self, request, format=None):
         title = request.data.get('title')
+        category = request.data.get('category')
         city = request.data.get('city')
         location = request.data.get('location')
         age = request.data.get('age')
@@ -92,6 +93,7 @@ class CreatePartyView(views.APIView):
         max_users = request.data.get('max_users')
         leader_id = request.data.get('leader_id')
         models.Party.objects.create(title=title,
+                                    category=category,
                                     city=city,
                                     location=location,
                                     age=age,
@@ -167,6 +169,7 @@ class StatisticCreatePartyView(views.APIView):
 
     def post(self, request, format=None):
         title = request.data.get('title')
+        category = request.data.get('category')
         city = request.data.get('city')
         location = request.data.get('location')
         age = request.data.get('age')
@@ -175,6 +178,7 @@ class StatisticCreatePartyView(views.APIView):
         max_users = request.data.get('max_users')
         leader_id = request.data.get('leader_id')
         models.StatisticPartyCreate.objects.create(title=title,
+                                                   category=category,
                                                    city=city,
                                                    location=location,
                                                    age=age,
@@ -208,6 +212,7 @@ class StatisticDeletePartyView(views.APIView):
 
     def post(self, request, format=None):
         title = request.data.get('title')
+        category = request.data.get('category')
         city = request.data.get('city')
         location = request.data.get('location')
         age = request.data.get('age')
@@ -215,7 +220,8 @@ class StatisticDeletePartyView(views.APIView):
         default_users = request.data.get('default_users')
         max_users = request.data.get('max_users')
         leader_id = request.data.get('leader_id')
-        models.StatisticPartyDelete.objects.create(title=title,
+        models.StatisticPartyCreate.objects.create(title=title,
+                                                   category=category,
                                                    city=city,
                                                    location=location,
                                                    age=age,
