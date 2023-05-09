@@ -1,12 +1,11 @@
-from django.shortcuts import render
-from rest_framework import serializers
-from rest_framework.views import APIView
-from rest_framework.response import Response
+# Модуль классов сериализации DRF
 
+from rest_framework import serializers
 from database import models
 
 
 class UserSerializator(serializers.ModelSerializer):
+    """Класс сериализации Юзеров"""
 
     class Meta:
         model = models.User
@@ -21,6 +20,8 @@ class UserSerializator(serializers.ModelSerializer):
 
 
 class PartySerializator(serializers.ModelSerializer):
+    """Класс сериализации Пати"""
+
     users = UserSerializator(read_only=True, many=True)
 
     class Meta:

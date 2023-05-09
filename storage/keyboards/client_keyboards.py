@@ -1,7 +1,7 @@
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove, InlineKeyboardMarkup, InlineKeyboardButton
+# Модуль создания кнопок в боте
 
-# Создание кнопок кнопок в handlers.client.py
-# button_main_menu = KeyboardButton('Главное меню')
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
+
 ibtn_create_user = InlineKeyboardButton('Создать профиль', callback_data='ibtn_create_user')
 ibtn_create_party = InlineKeyboardButton('Создать Пати', callback_data='ibtn_create_party')
 ibtn_party_list = InlineKeyboardButton('Список Пати', callback_data='ibtn_party_list')
@@ -22,7 +22,6 @@ ibtn_next = InlineKeyboardButton('Далее', callback_data='ibtn_next')
 # -----------
 button_yes = KeyboardButton('Да')
 button_no = KeyboardButton('Нет')
-
 #------------
 button_next_page = KeyboardButton('Далее')
 button_previous_page = KeyboardButton('Назад')
@@ -51,14 +50,7 @@ button_yes_no.row(button_no, button_yes)
 button_start_view = KeyboardButton('Начать просмотр')
 button_start_view_kb = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
 button_start_view_kb.add(button_start_view)
-
-
-#
-
-# add- добавляет все кнопки попрядку
-# row- добавляет кнопки в ряд
-# insert- поставит кнопку в ряд если есть место
-
+# --------
 ikb_start = InlineKeyboardMarkup().add(ibtn_create_user)
 # -------------
 ikb_help = InlineKeyboardMarkup().add(ibtn_profile)

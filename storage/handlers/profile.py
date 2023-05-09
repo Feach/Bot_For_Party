@@ -1,15 +1,15 @@
-# Получения профиля юзера. С просмотром всей инфы о нем.
+# Модуль отображения информации о юзере
+from import_buffer import dp
+from config import PARSE_USER_LIST_URL
+
 from data_base import json_parse_users
 
-from import_buffer import dp
-
 from keyboards.client_keyboards import ikb_profile, ikb_start
-
-from config import PARSE_USER_LIST_URL
 
 
 @dp.callback_query_handler(lambda query: query.data == "ibtn_profile")
 async def profile(message):
+    """Функция отображения информации о юзере"""
     data = json_parse_users.get_json(url=PARSE_USER_LIST_URL)
     is_user_found = False
     my_item = ""

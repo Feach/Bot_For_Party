@@ -1,14 +1,14 @@
+# Модуль отображения юзера в других пати, в которых он состоит
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from data_base import json_parse_partys
-
-from import_buffer import dp
-
-from keyboards.client_keyboards import ikb_help, ikb_my_party1, ikb_my_party2
 
 from config import PARSE_PARTY_LIST_URL
 
+from data_base import json_parse_partys
+from keyboards.client_keyboards import ikb_help, ikb_my_party1, ikb_my_party2
+
 
 async def i_in_other_party(message):
+    """Функция для отображения пользователя в других Пати, в которых он состоит"""
     data = json_parse_partys.get_json(url=PARSE_PARTY_LIST_URL)
     result = data.get("results")
     my_partys_list = []

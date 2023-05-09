@@ -1,21 +1,19 @@
-import requests
-from aiogram import types, Dispatcher
+# Модуль отображения списка Пати
+from aiogram import types
 from aiogram.dispatcher import FSMContext
-from aiogram.dispatcher.filters import state
 from aiogram.dispatcher.filters.state import StatesGroup, State
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-
 from import_buffer import dp
+from config import PARSE_PARTY_LIST_URL, MAIN_PARTY_LIST_URL
 
 from data_base import json_parse_partys
 
-from keyboards.client_keyboards import ikb_help
-
-from config import PARSE_PARTY_LIST_URL, MAIN_PARTY_LIST_URL
+from keyboards.client_keyboards import ikb_help, button_next12
 
 
 class FSMFilter_party(StatesGroup):
+    """Класс определения переменных FSM"""
     category = State()
     city = State()
     url = State()
@@ -23,11 +21,15 @@ class FSMFilter_party(StatesGroup):
 
 @dp.callback_query_handler(lambda query: query.data == "ibtn_party_list")
 async def start_party_list(message: types.Message):
+    """Функция запуска FSM для отображения списка пати"""
+
     await FSMFilter_party.category.set()
-    await message.bot.send_message(message.from_user.id, '<b>Введите категорию\nНажмите "Далее" что пропустить</b>')
+    await message.bot.send_message(message.from_user.id, '<b>Введите категорию:\nИли нажмите "Далее" что пропустить</b>', reply_markup=button_next12)
 
     @dp.message_handler(state=FSMFilter_party.category)
     async def load_category(message: types.Message, state: FSMContext):
+        """Функция приема категории для фильтрации """
+
         async with state.proxy() as data:
             data['category'] = message.text
             await FSMFilter_party.next()
@@ -35,6 +37,8 @@ async def start_party_list(message: types.Message):
 
     @dp.message_handler(state=FSMFilter_party.city)
     async def load_city(message: types.Message, state: FSMContext):
+        """Функция приема категории для фильтрации и дальнейшее выведения списка пати по запросу"""
+
         async with state.proxy() as data:
             data['city'] = message.text
             await FSMFilter_party.next()
@@ -176,6 +180,7 @@ async def start_party_list(message: types.Message):
 
                 @dp.callback_query_handler(lambda query: query.data == "next_page")
                 async def party_list_next_page(message: types.Message):
+                    """Метод пагинации списка Пати"""
                     page_text = message["message"]["reply_markup"]["inline_keyboard"][1]
                     for item in page_text:
                         if item["callback_data"] == "next_page":
@@ -191,7 +196,6 @@ async def start_party_list(message: types.Message):
 
                     counter = 0
 
-                    # блок формирования сообщения
                     for item in party_list_result:
                         counter += 1
                         users = item.get('users')
@@ -254,6 +258,7 @@ async def start_party_list(message: types.Message):
 
                 @dp.callback_query_handler(lambda query: query.data == "previous_page")
                 async def party_list_previous_page(message: types.Message):
+                    """Метод пагинации списка Пати"""
                     page_text = message["message"]["reply_markup"]["inline_keyboard"][1]
                     for item in page_text:
                         if item["callback_data"] == "previous_page":

@@ -1,46 +1,31 @@
-# файл со всеми функциями которыми пользуются юзеры
+# Модуль клиентских хендлеров
 from aiogram import types, Dispatcher
-from text_base.texts import first_text
+from config import admin_inside_id
+from text_base.texts import FIRST_TEXT, HELP_COMMAND
 from keyboards import client_keyboards
 from keyboards.client_keyboards import ikb_help
-from config import admin_inside_id
-
-# буферы тескта
-HELP_COMMAND = """
-/help - Команды бота
-
-Ниже все кнопки для управления ботом
-"""
-
-FIRST_TEXT = first_text
 
 
-# регистрация хендлеров
 def register_handlers_client(dp: Dispatcher):
+    """Функция регистрации клиентких хендлеров"""
+
     dp.register_message_handler(start, commands=['start'])
     dp.register_message_handler(help, commands=['help'])
 
 
-# @dp.message_handler(commands=['start'])
 async def start(message: types.Message):
-    await message.bot.send_message(message.from_user.id, text=first_text, reply_markup=client_keyboards.ikb_start)
+    """Функция клиенткого хендлера при старте"""
+
+    await message.bot.send_message(message.from_user.id, text=FIRST_TEXT, reply_markup=client_keyboards.ikb_start)
     await message.delete()
     await message.bot.send_message(admin_inside_id, f"В бота зашел @{message.from_user.username}")
 
 
-# @dp.message_handler(commands=['help'])
 async def help(message: types.Message):
+    """Функция клиенткого хендлера при help запросе"""
+
     await message.answer(text=HELP_COMMAND, reply_markup=ikb_help)
     await message.delete()
-
-
-# @dp.message_handler()
-# async def cenz_mat(message: types.Message):
-#     if {i.lower().translate(str.maketrans('', '', string.punctuation)) for i in message.text.split(' ')}\
-#             .intersection(set(json.load(open('cenz.json')))) != set():
-#         await message.reply('Маты запрещены')
-#         await message.delete()
-
 
 
 

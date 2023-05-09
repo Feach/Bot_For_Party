@@ -1,29 +1,24 @@
-# файл функций бд пати
-import json
-import math
-import sqlite3
+# Модуль с функциями для работы с sql и DRF
 
+import sqlite3
 import requests
-from data_base import json_parse_users, json_parse_partys
 
 from import_buffer import dp
-
-from keyboards.client_keyboards import ikb_connect_to_party, ikb_pagination, main_menu, ikb_my_party1
+from data_base import json_parse_users, json_parse_partys
 
 from config import CREATE_PARTY_URL, PARSE_PARTY_LIST_URL, PARSE_USER_LIST_URL, CONNECT_TO_PARTY_URL, STATISTIC_PARTY_CREATE_URL
 
 
-# подключение бд к боту
 def sql_party_start():
+    """Функция запуска бд таблицы (party)"""
     connection = sqlite3.connect('storage/db.sqlite3')
     cursor = connection.cursor()
     if connection:
         print('storage/db.sqlite3 (party) подключено успешно!')
 
 
-# Создание пати из FSM(handlers/create_party.py). Получает state и преобразует его в json.
-# После постит на ссылку, от куда его обрабатывает database/views.py(CreatePartyView) и создает пати в бд
 async def sql_create_party(state):
+    """Функция отправки post запроса для создания Party"""
     async with state.proxy() as data:
         json_data = {
             "title": data['title'],
@@ -42,6 +37,7 @@ async def sql_create_party(state):
 
 @dp.callback_query_handler(lambda query: query.data == "connect_to_data")
 async def sql_connect_to_party(message):
+    """Функция отправки post запроса для подключения к Party"""
     text = message["message"]["reply_markup"]["inline_keyboard"][0][0]["text"]
     party_pk = text.replace("Подключиться к группе №", "")
     user_id = message["message"]["chat"]["username"]

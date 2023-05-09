@@ -1,6 +1,5 @@
-# Файл со всеми вьюхами, который делаю запросы в бд
-import requests
-from rest_framework import serializers, response, views, status
+# Модуль классов представления моделей базы данных Django
+from rest_framework import response, views, status
 from rest_framework.generics import ListAPIView
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
@@ -10,19 +9,22 @@ from .serializators import PartySerializator
 
 
 class PartyListPagination(PageNumberPagination):
+    """Класс пагинации списка Пати"""
     page_size = 4
     page_size_query_param = 'page_size'
     max_page_size = 1000
 
 
-# Получение списка пати
 class PartyListView(ListAPIView):
+    """Класс получения объектов из таблицы Пати"""
     queryset = models.Party.objects.all().prefetch_related("users")
     pagination_class = PartyListPagination
     serializer_class = PartySerializator
 
 
 class PartyListWithFilterOnlyCity(ListAPIView):
+    """Класс получения объектов из таблицы Пати с фильтрацией только по городам"""
+
     pagination_class = PartyListPagination
     serializer_class = PartySerializator
 
@@ -32,6 +34,8 @@ class PartyListWithFilterOnlyCity(ListAPIView):
 
 
 class PartyListWithFilterCategory(ListAPIView):
+    """Класс получения объектов из таблицы Пати с фильтрацией только по категории"""
+
     pagination_class = PartyListPagination
     serializer_class = PartySerializator
 
@@ -41,7 +45,8 @@ class PartyListWithFilterCategory(ListAPIView):
 
 
 class PartyListWithFilterCategoryAndCity(ListAPIView):
-    print('view')
+    """Класс получения объектов из таблицы Пати с фильтрацией по категории и городу"""
+
     pagination_class = PartyListPagination
     serializer_class = PartySerializator
 
@@ -51,8 +56,8 @@ class PartyListWithFilterCategoryAndCity(ListAPIView):
         return models.Party.objects.filter(category=category, city=city).prefetch_related("users").order_by('pk')
 
 
-# Получение списка юзеров
 class UserListView(views.APIView):
+    """Класс получения объектов из таблицы Юзеров"""
 
     def get(self, *args, **kwargs):
         users = models.User.objects.all()
@@ -60,8 +65,8 @@ class UserListView(views.APIView):
         return response.Response(serialized_users.data)
 
 
-# Создание юзера по команде /create_user
 class CreateUserView(views.APIView):
+    """Класс создания объектов в таблице Юзеров"""
 
     def post(self, request, format=None):
         name = request.data.get('name')
@@ -81,6 +86,7 @@ class CreateUserView(views.APIView):
 
 
 class UpdateProfileView(views.APIView):
+    """Класс изменения объектов в таблице Юзеров"""
 
     def post(self, request, *args, **kwargs):
         name = request.data.get('name')
@@ -98,8 +104,8 @@ class UpdateProfileView(views.APIView):
         return Response('test', status=status.HTTP_201_CREATED)
 
 
-# Создание пати по команде /create_party
 class CreatePartyView(views.APIView):
+    """Класс создания объектов в таблице Пати и добавление лидера в число юзеров созданной пати"""
 
     def post(self, request, format=None):
         title = request.data.get('title')
@@ -121,17 +127,16 @@ class CreatePartyView(views.APIView):
                                     user_max=max_users,
                                     leader_id=leader_id
                                     )
-        #Подключение создателя в список пользователей
         user_id = request.data.get("leader_id")
         user = models.User.objects.get(user_id=user_id)
         models.Party.objects.get(leader_id=leader_id).users.add(user)
         return Response('test', status=status.HTTP_201_CREATED)
 
 
-# Подключение пользователя к пати на его выбор
 class ConnectToPartyView(views.APIView):
-    def post(self, request, format=None):
+    """Класс подключения Юзеров к Пати"""
 
+    def post(self, request, format=None):
         party_pk = request.data.get("party_pk")
         user_id = request.data.get("user_id")
         user = models.User.objects.get(user_id=user_id)
@@ -141,6 +146,7 @@ class ConnectToPartyView(views.APIView):
 
 
 class DeleteUserView(views.APIView):
+    """Класс удаления объектов в таблице Юзеров"""
     def delete(self, request, pk, format=None):
         user = models.User.objects.get(pk=pk)
         user.delete()
@@ -148,6 +154,8 @@ class DeleteUserView(views.APIView):
 
 
 class DeletePartyView(views.APIView):
+    """Класс удаления объектов в таблице Пати"""
+
     def delete(self, request, pk, format=None):
         party = models.Party.objects.get(pk=pk)
         party.delete()
@@ -155,6 +163,8 @@ class DeletePartyView(views.APIView):
 
 
 class DeleteFromPartyView(views.APIView):
+    """Класс удаления Юзеров в из участников Пати"""
+
     def delete(self, request, format=None):
 
         party_pk = request.data.get("party_pk")
@@ -167,6 +177,8 @@ class DeleteFromPartyView(views.APIView):
 
 
 class StatisticCreateUserView(views.APIView):
+    """Класс создания объектов в таблице Юзеров для статистики"""
+
     def post(self, request, format=None):
         name = request.data.get('name')
         gender = request.data.get('gender')
@@ -185,6 +197,7 @@ class StatisticCreateUserView(views.APIView):
 
 
 class StatisticCreatePartyView(views.APIView):
+    """Класс создания объектов в таблице Пати для статистики"""
 
     def post(self, request, format=None):
         title = request.data.get('title')
@@ -210,6 +223,8 @@ class StatisticCreatePartyView(views.APIView):
 
 
 class StatisticDeleteUserView(views.APIView):
+    """Класс создания удаленных объектов в таблице Юзеров для статистики"""
+
     def post(self, request, format=None):
         name = request.data.get('name')
         gender = request.data.get('gender')
@@ -228,6 +243,8 @@ class StatisticDeleteUserView(views.APIView):
 
 
 class StatisticDeletePartyView(views.APIView):
+    """Класс создания удаленных объектов в таблице Пати для статистики"""
+
 
     def post(self, request, format=None):
         title = request.data.get('title')

@@ -1,17 +1,17 @@
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from data_base import json_parse_partys
+# Модуль отображения Пати созданой Юзером
 
 from import_buffer import dp
-
-from keyboards.client_keyboards import ikb_help, ikb_my_party1, ikb_my_party2
-
 from config import PARSE_PARTY_LIST_URL
 
+from data_base import json_parse_partys
 from handlers import i_in_other_party
+from keyboards.client_keyboards import ikb_help, ikb_my_party1, ikb_my_party2
 
 
 @dp.callback_query_handler(lambda query: query.data == "ibtn_my_party")
 async def my_party(message):
+    """Функция отображения Пати созданой Юзером, включает в себя модуль i_in_other_party"""
+
     data = json_parse_partys.get_json(url=PARSE_PARTY_LIST_URL)
     result = data.get("results")
     is_party_found = False

@@ -1,27 +1,20 @@
-# файл функций бд юзеров
+# Модуль с функциями для работы с sql и DRF
 import sqlite3
-import json
-
 import requests
-
-from data_base import json_parse_users
-
-from keyboards.client_keyboards import ikb_profile
 
 from config import CREATE_USER_URL, UPDATE_PROFILE_URL, STATISTIC_USER_CREATE_URL
 
 
-# подключение бд к боту
 def sql_users_start():
+    """Функция запуска бд таблицы (users)"""
     connection = sqlite3.connect('storage/db.sqlite3')
     cursor = connection.cursor()
     if connection:
         print('storage/db.sqlite3 (users) подключено успешно!')
 
 
-# Создание юзера из FSM(handlers/create_user.py). Получает state и преобразует его в json.
-# После постит на ссылку, от куда его обрабатывает database/views.py(CreateUserView) и создает юзера в бд
 async def sql_create_user(state):
+    """Функция отправки post запроса для создания User"""
     async with state.proxy() as data:
         json_data = {
             "name": data['nikname'],
@@ -36,6 +29,8 @@ async def sql_create_user(state):
 
 
 async def sql_update_profile(state):
+    """Функция отправки post запроса для обновления данных User"""
+
     async with state.proxy() as data:
         json_data = {
             "name": data['nikname'],

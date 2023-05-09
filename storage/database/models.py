@@ -1,8 +1,9 @@
+# Модуль моделей базы данных Django
 from django.db import models
-from django.urls import reverse
 
 
 class User(models.Model):
+    """Класс модели Юзеров"""
     type_user = models.CharField(max_length=50, default="Пользователь")
     name = models.CharField(max_length=50)
     gender = models.CharField(max_length=50)
@@ -21,6 +22,8 @@ class User(models.Model):
 
 
 class Party(models.Model):
+    """Класс модели Пати"""
+
     title = models.CharField(max_length=50)
     category = models.CharField(max_length=50)
     city = models.CharField(max_length=50)
@@ -45,6 +48,7 @@ class Party(models.Model):
 
 
 class StatisticUserCreate(models.Model):
+    """Класс модели созданных Юзеров для статистики"""
     type_user = models.CharField(max_length=50, default="Пользователь")
     name = models.CharField(max_length=50)
     gender = models.CharField(max_length=50)
@@ -63,6 +67,8 @@ class StatisticUserCreate(models.Model):
 
 
 class StatisticPartyCreate(models.Model):
+    """Класс модели созданных Пати для статистики"""
+
     title = models.CharField(max_length=50)
     category = models.CharField(max_length=50)
     city = models.CharField(max_length=50)
@@ -87,6 +93,8 @@ class StatisticPartyCreate(models.Model):
 
 
 class StatisticUserDelete(models.Model):
+    """Класс модели удаленных Юзеров для статистики"""
+
     type_user = models.CharField(max_length=50, default="Пользователь")
     name = models.CharField(max_length=50)
     gender = models.CharField(max_length=50)
@@ -105,6 +113,8 @@ class StatisticUserDelete(models.Model):
 
 
 class StatisticPartyDelete(models.Model):
+    """Класс модели удаленных Пати для статистики"""
+
     title = models.CharField(max_length=50)
     category = models.CharField(max_length=50)
     city = models.CharField(max_length=50)

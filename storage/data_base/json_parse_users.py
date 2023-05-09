@@ -1,7 +1,6 @@
-# Файл создания json файла для работы с юзерами
+# Модуль с функциями для получения json data для последующей работой с ней
 
 import requests
-import json
 
 from config import PARSE_USER_LIST_URL
 
