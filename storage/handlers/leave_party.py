@@ -5,7 +5,7 @@ from import_buffer import dp
 from config import DELETE_FROM_PARTY
 
 
-@dp.callback_query_handler(lambda query: query.data == "ibtn_leave_party")
+@dp.callback_query_handler(lambda query: query.data == "ibtn_leave_party", state='*')
 async def leave_party(group_id):
     """Функция выхода юзера из пати"""
     text = group_id["message"]["reply_markup"]["inline_keyboard"][2][0]["text"]

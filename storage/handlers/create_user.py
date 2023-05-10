@@ -21,7 +21,7 @@ class FSMCreate_user(StatesGroup):
     user_id = State()
 
 
-@dp.callback_query_handler(lambda query: query.data == "ibtn_create_user")
+@dp.callback_query_handler(lambda query: query.data == "ibtn_create_user", state='*')
 async def proverka_logina(message: types.Message):
     """Функция проверки на наличие существующего профиля у пользователя """
     data = json_parse_users.get_json(url=PARSE_USER_LIST_URL)

@@ -26,7 +26,7 @@ class FSMCreate_party(StatesGroup):
     leader_id = State()
 
 
-@dp.callback_query_handler(lambda query: query.data == "ibtn_create_party")
+@dp.callback_query_handler(lambda query: query.data == "ibtn_create_party", state='*')
 async def proverka_party(message: types.Message):
     """Функция проверки лидера пати на наличие у него созданных пати
         и дальнейшего создания пати"""

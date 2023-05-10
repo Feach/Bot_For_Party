@@ -7,7 +7,7 @@ from data_base import json_parse_users
 from keyboards.client_keyboards import ikb_profile, ikb_start
 
 
-@dp.callback_query_handler(lambda query: query.data == "ibtn_profile")
+@dp.callback_query_handler(lambda query: query.data == "ibtn_profile", state='*')
 async def profile(message):
     """Функция отображения информации о юзере"""
     data = json_parse_users.get_json(url=PARSE_USER_LIST_URL)

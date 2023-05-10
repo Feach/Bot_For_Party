@@ -8,7 +8,7 @@ from handlers import i_in_other_party
 from keyboards.client_keyboards import ikb_help, ikb_my_party1, ikb_my_party2
 
 
-@dp.callback_query_handler(lambda query: query.data == "ibtn_my_party")
+@dp.callback_query_handler(lambda query: query.data == "ibtn_my_party", state='*')
 async def my_party(message):
     """Функция отображения Пати созданой Юзером, включает в себя модуль i_in_other_party"""
 

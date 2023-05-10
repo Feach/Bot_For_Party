@@ -10,7 +10,7 @@ from data_base import json_parse_users
 from keyboards.client_keyboards import ikb_start, ikb_help, ikb_my_party1, ikb_delete_user_yes_no
 
 
-@dp.callback_query_handler(lambda query: query.data == "ibtn_delete_user")
+@dp.callback_query_handler(lambda query: query.data == "ibtn_delete_user", state='*')
 async def delete_user(message):
     """Функция удаления Юзера"""
 

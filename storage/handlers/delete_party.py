@@ -8,7 +8,7 @@ from data_base import json_parse_partys
 from keyboards.client_keyboards import ikb_delete_party, ikb_delete_party_yes_no, ikb_help
 
 
-@dp.callback_query_handler(lambda query: query.data == "ibtn_delete_party")
+@dp.callback_query_handler(lambda query: query.data == "ibtn_delete_party", state='*')
 async def delete_party(message):
     """Функция удаления Пати"""
     await message.bot.send_message(message.from_user.id, '<b>Вы собираетесь удалить свой профиль</b>\n'

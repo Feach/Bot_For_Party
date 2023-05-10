@@ -20,7 +20,7 @@ class FSMUpdate_user(StatesGroup):
     user_id = State()
 
 
-@dp.callback_query_handler(lambda query: query.data == "ibtn_update_profile")
+@dp.callback_query_handler(lambda query: query.data == "ibtn_update_profile", state='*')
 async def proverka_logina(message: types.Message):
     """Функция запуска FSM для изменения данных о пользователе """
     await FSMUpdate_user.nikname.set()
