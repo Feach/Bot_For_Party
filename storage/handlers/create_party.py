@@ -1,8 +1,8 @@
 # Модуль FSM для создания пати
-
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
+from aiogram.types import ReplyKeyboardRemove
 
 from import_buffer import dp
 from config import PARSE_PARTY_LIST_URL
@@ -10,7 +10,7 @@ from config import PARSE_PARTY_LIST_URL
 from handlers import my_party
 
 from data_base import party_db, json_parse_partys
-from keyboards.client_keyboards import keyboards_create_gender, button_next, button_next12
+from keyboards.client_keyboards import keyboards_create_gender, button_next, button_next12, button_category, button_location, button_choice
 
 
 class FSMCreate_party(StatesGroup):
@@ -18,7 +18,9 @@ class FSMCreate_party(StatesGroup):
     title = State()
     category = State()
     city = State()
+    choice = State()
     location = State()
+    lat_lon = State()
     age = State()
     discription = State()
     default_users = State()
@@ -49,31 +51,73 @@ async def proverka_party(message: types.Message):
         async with state.proxy() as data:
             data['title'] = message.text
         await FSMCreate_party.next()
-        await message.bot.send_message(message.from_user.id, '<b>Введите Категорию:</b>')
+        await message.bot.send_message(message.from_user.id, '<b>Выберете категорию из списка ниже\n'
+                                                             'Или введите категорию вручную:</b>', reply_markup=button_category)
 
     @dp.message_handler(state=FSMCreate_party.category)
     async def load_category(message: types.Message, state: FSMContext):
         """Метод получения категории"""
         async with state.proxy() as data:
             data['category'] = message.text
+            data['category'] = data['category'].lower().capitalize()
         await FSMCreate_party.next()
-        await message.bot.send_message(message.from_user.id, '<b>Введите Город:</b>')
+        await message.bot.send_message(message.from_user.id, '<b>Введите Город:</b>', reply_markup=ReplyKeyboardRemove())
 
     @dp.message_handler(state=FSMCreate_party.city)
     async def load_city(message: types.Message, state: FSMContext):
         """Метод получения города"""
         async with state.proxy() as data:
             data['city'] = message.text
-        await FSMCreate_party.next()
-        await message.bot.send_message(message.from_user.id, '<b>Введите локацию:</b>')
+            data['city'] = data['city'].lower().capitalize()
+            await message.bot.send_message(message.from_user.id, '<b>Введите локацию:\nИли поделитесь геолокацией</b>',
+                                           reply_markup=button_choice)
+            await FSMCreate_party.next()
+
+    @dp.message_handler(state=FSMCreate_party.choice)
+    async def load_choice(message: types.Message, state: FSMContext):
+        """Метод получения выбора"""
+        async with state.proxy() as data:
+            if message.text == "Ввести вручную":
+                data['choice'] = message.text
+                await message.bot.send_message(message.from_user.id,
+                                               '<b>Введите локацию:</b>', reply_markup=ReplyKeyboardRemove())
+                await FSMCreate_party.next()
+            elif message.text == "Отправить свою локацию":
+                data['choice'] = message.text
+                await FSMCreate_party.lat_lon.set()
+                await message.bot.send_message(message.from_user.id,
+                                               '<b>Поделитесь своей геолокацией</b>',
+                                               reply_markup=button_location)
 
     @dp.message_handler(state=FSMCreate_party.location)
     async def load_location(message: types.Message, state: FSMContext):
         """Метод получения локации"""
         async with state.proxy() as data:
+
             data['location'] = message.text
+            data['lat'] = "-"
+            data['lon'] = "-"
+
+        await FSMCreate_party.age.set()
+
+        await message.bot.send_message(message.from_user.id, '<b>Введите средний возраст Пати:</b>', reply_markup=ReplyKeyboardRemove())
+
+    @dp.message_handler(state=FSMCreate_party.lat_lon, content_types=['location'])
+    async def lat_lon(message: types.Message, state: FSMContext):
+        async with state.proxy() as data:
+            lat = message.location.latitude
+            lon = message.location.longitude
+            if lat and lon:
+                data['location'] = "Указана геолокация"
+                data['lat'] = str(lat)
+                data['lon'] = str(lon)
+                print(type(data['lat']), type(data['lon']))
+
+
         await FSMCreate_party.next()
-        await message.bot.send_message(message.from_user.id, '<b>Введите средний возраст Пати:</b>')
+
+        await message.bot.send_message(message.from_user.id, '<b>Введите средний возраст Пати:</b>', reply_markup=ReplyKeyboardRemove())
+
 
     @dp.message_handler(state=FSMCreate_party.age)
     async def load_age(message: types.Message, state: FSMContext):

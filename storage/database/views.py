@@ -10,7 +10,7 @@ from .serializators import PartySerializator
 
 class PartyListPagination(PageNumberPagination):
     """Класс пагинации списка Пати"""
-    page_size = 4
+    page_size = 1
     page_size_query_param = 'page_size'
     max_page_size = 1000
 
@@ -111,7 +111,10 @@ class CreatePartyView(views.APIView):
         title = request.data.get('title')
         category = request.data.get('category')
         city = request.data.get('city')
+        choice = request.data.get('choice')
         location = request.data.get('location')
+        lat = request.data.get('lat')
+        lon = request.data.get('lon')
         age = request.data.get('age')
         discription = request.data.get('discription')
         default_users = request.data.get('default_users')
@@ -120,7 +123,10 @@ class CreatePartyView(views.APIView):
         models.Party.objects.create(title=title,
                                     category=category,
                                     city=city,
+                                    choice=choice,
                                     location=location,
+                                    lat=lat,
+                                    lon=lon,
                                     age=age,
                                     discription=discription,
                                     user_now=default_users,

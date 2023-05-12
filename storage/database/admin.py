@@ -11,7 +11,7 @@ class UserAdmin(admin.ModelAdmin):
 
 class PartyAdmin(admin.ModelAdmin):
     """Класс Пати в админ панели"""
-    list_display = ['pk', 'category', 'title', 'city', 'location', 'age', 'discription', 'user_count', 'user_max', 'leader_id', 'create_at']
+    list_display = ['pk', 'category', 'title', 'city', 'choice', 'location', 'age', 'discription', 'user_count', 'user_max', 'leader_id', 'create_at']
     filter_horizontal = ['users']
 
 

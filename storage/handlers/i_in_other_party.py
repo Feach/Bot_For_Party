@@ -4,7 +4,9 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from config import PARSE_PARTY_LIST_URL
 
 from data_base import json_parse_partys
-from keyboards.client_keyboards import ikb_help, ikb_my_party1, ikb_my_party2
+from keyboards.client_keyboards import ikb_help
+
+from utils import buffer_def
 
 
 async def i_in_other_party(message):
@@ -12,40 +14,25 @@ async def i_in_other_party(message):
     data = json_parse_partys.get_json(url=PARSE_PARTY_LIST_URL)
     result = data.get("results")
     my_partys_list = []
-    for item in result:
-        if str(item.get('leader_id')) == "@" + str(message.from_user.username):
-            my_item = item
-        users = item.get('users')
+    for r in result:
+        if str(r.get('leader_id')) == "@" + str(message.from_user.username):
+            my_item = r
+        users = r.get('users')
         if users:
             for u in users:
                 my_users_id = u.get('user_id')
                 if my_users_id == "@" + str(message.from_user.username):
-                    my_partys_list.append(item)
+                    my_partys_list.append(r)
     if my_partys_list:
         await message.bot.send_message(message.from_user.id, '<b>Вы находить в пати:</b>')
-        for party in my_partys_list:
-            users = party.get('users')
-            my_users = ""
-            for user in users:
-                my_user = f"-----------\n{'<b>Имя: </b>'} {user.get('name')}\n" \
-                          f"{'<b>Пол: </b>'} {user.get('gender')}\n" \
-                          f"{'<b>Возраст: </b>'} {user.get('age')}\n" \
-                          f"{'<b>Описание: </b>'} {user.get('discription')}\n" \
-                          f"{'<b>ID: </b>'} {user.get('user_id')}\n"
-                my_users = my_users + my_user
+        for item in my_partys_list:
+
+            my_users = await buffer_def.users(item)
+
             if my_users == "":
                 my_users = str("<b>В Вашей группе нет пользователей</b>")
 
-            cart = f"{'<b>Номер группы: </b>'} {party.get('pk')}\n" \
-                   f"{'<b>Тема: </b>'} {party.get('title')}\n" \
-                   f"{'<b>Категория: </b>'} {party.get('category')}\n" \
-                   f"{'<b>Локация: </b>'} {party.get('location')}\n" \
-                   f"{'<b>Средний возраст: </b>'} {party.get('age')}\n" \
-                   f"{'<b>Описание: </b>'} {party.get('discription')}\n" \
-                   f"{'<b>Кол-во пользователей: </b>'} {party.get('user_count')} <b>|</b> {party.get('user_max')}\n" \
-                   f"{'<b>Лидер: </b>'} {party.get('leader_id')}\n" \
-                   f"{'<b>Пользователи: </b>'} \n " \
-                   f"{my_users}\n "
+            cart = await buffer_def.cart(item, my_users)
 
             ibtn_leave_party = InlineKeyboardMarkup()
             ibtn_leave_party.row_width = 2
@@ -60,15 +47,13 @@ async def i_in_other_party(message):
             )
 
             ibtn_leave_party.add(
-                InlineKeyboardButton(f"{'Выйти из пати №'}{party.get('pk')}", group_id=party.get('pk'),
+                InlineKeyboardButton(f"{'Выйти из пати №'}{item.get('pk')}", group_id=item.get('pk'),
                                      callback_data="ibtn_leave_party")
             )
 
             await message.bot.send_message(message.from_user.id, cart, reply_markup=ibtn_leave_party)
 
     else:
-        await message.bot.send_message(message.from_user.id,
-                                       '<b>У вас еще нет своей пати и вы не состоите ни в какой пати</b>',
-                                       reply_markup=ikb_my_party1)
+        await message.bot.send_message(message.from_user.id, '<b>Вы не состоите в чужих пати</b>', reply_markup=ikb_help)
 
 

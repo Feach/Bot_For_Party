@@ -53,6 +53,12 @@ button_next = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
 button_next12 = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
 button_pag = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
 button_yes_no = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+button_choice = ReplyKeyboardMarkup(resize_keyboard=True)
+button_choice.add(KeyboardButton('Отправить свою локацию'))
+button_choice.add(KeyboardButton('Ввести вручную'))
+button_location = ReplyKeyboardMarkup(resize_keyboard=True)
+button_location.add(KeyboardButton('Отправить свою локацию 🗺️', request_location=True))
+
 # ------------------
 button_pag.add(button_previous_page, button_next_page)
 # ----------
