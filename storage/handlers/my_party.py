@@ -10,7 +10,7 @@ from keyboards.client_keyboards import ikb_help, ikb_my_party1, ikb_my_party2
 from utils import buffer_def
 
 
-@dp.callback_query_handler(lambda query: query.data == "ibtn_my_party", state='*')
+@dp.callback_query_handler(lambda query: query.data == "ibtn_my_party")
 async def my_party(message):
     """Функция отображения Пати созданой Юзером, включает в себя модуль i_in_other_party"""
 
@@ -42,5 +42,8 @@ async def my_party(message):
         await message.bot.send_message(message.from_user.id, cart, reply_markup=ikb_my_party1)
 
         await i_in_other_party.i_in_other_party(message)
+    else:
+        await message.bot.send_message(message.from_user.id, '<b>У вас нет пати</b>', reply_markup=ikb_help)
+
 
 

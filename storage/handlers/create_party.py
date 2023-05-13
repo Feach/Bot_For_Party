@@ -1,4 +1,6 @@
 # Модуль FSM для создания пати
+import json
+
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
@@ -61,17 +63,30 @@ async def proverka_party(message: types.Message):
             data['category'] = message.text
             data['category'] = data['category'].lower().capitalize()
         await FSMCreate_party.next()
-        await message.bot.send_message(message.from_user.id, '<b>Введите Город:</b>', reply_markup=ReplyKeyboardRemove())
+        await message.bot.send_message(message.from_user.id, '<b>Введите Город:\n</b>Например: Барнаул', reply_markup=ReplyKeyboardRemove())
 
     @dp.message_handler(state=FSMCreate_party.city)
     async def load_city(message: types.Message, state: FSMContext):
         """Метод получения города"""
         async with state.proxy() as data:
-            data['city'] = message.text
-            data['city'] = data['city'].lower().capitalize()
-            await message.bot.send_message(message.from_user.id, '<b>Введите локацию:\nИли поделитесь геолокацией</b>',
-                                           reply_markup=button_choice)
-            await FSMCreate_party.next()
+            with open('storage/utils/cities.json') as file:
+                read = file.read()
+                parse = json.loads(read)
+                list = parse.get('city')
+                data['city'] = message.text
+                data['city'] = data['city'].lower().capitalize()
+                is_exists = False
+                for item in list:
+                    if item.get('name') == data['city']:
+                        is_exists = True
+                        break
+                if is_exists:
+
+                    await message.bot.send_message(message.from_user.id, '<b>Введите локацию:\nИли поделитесь геолокацией</b>',
+                                                   reply_markup=button_choice)
+                    await FSMCreate_party.next()
+                else:
+                    await message.bot.send_message(message.from_user.id, '<b>Введеного города не существует.\nПроверьте верно ли внесены данные и попробуйте снова</b>')
 
     @dp.message_handler(state=FSMCreate_party.choice)
     async def load_choice(message: types.Message, state: FSMContext):
