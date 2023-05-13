@@ -18,6 +18,7 @@ async def start(message: types.Message):
 
     await message.bot.send_message(message.from_user.id, text=FIRST_TEXT, reply_markup=client_keyboards.ikb_start)
     await message.delete()
+    logger.info(f"@{message.from_user.username} зашел в бота")
     await message.bot.send_message(admin_inside_id, f"В бота зашел @{message.from_user.username}")
 
 

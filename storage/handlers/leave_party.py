@@ -3,6 +3,7 @@ import requests
 
 from import_buffer import dp
 from config import DELETE_FROM_PARTY
+from loguru import logger
 
 
 @dp.callback_query_handler(lambda query: query.data == "ibtn_leave_party", state='*')
@@ -15,6 +16,7 @@ async def leave_party(group_id):
         "party_pk": party_pk,
         "user_id": "@" + user_id
     }
+    logger.info(f"@{user_id} вышел из пати pk {party_pk}")
 
     requests.delete(url=DELETE_FROM_PARTY, json=json_data)
 

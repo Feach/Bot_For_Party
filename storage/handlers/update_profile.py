@@ -9,6 +9,7 @@ from handlers import profile
 
 from data_base import users_db, json_parse_users
 from keyboards.client_keyboards import ikb_profile, keyboards_create_gender, button_next
+from loguru import logger
 
 
 class FSMUpdate_user(StatesGroup):
@@ -79,6 +80,8 @@ async def proverka_logina(message: types.Message):
         if message.text == "Завершить":
             await users_db.sql_create_user(state)
             await profile.profile(message)
+            logger.info(f"{data['user_id']} обновил профиль")
+
             await state.finish()
         else:
             await message.bot.send_message(message.from_user.id,

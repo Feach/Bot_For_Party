@@ -10,6 +10,7 @@ from config import PARSE_USER_LIST_URL
 from handlers import profile
 from data_base import users_db, json_parse_users
 from keyboards.client_keyboards import ikb_profile, keyboards_create_gender, button_next
+from loguru import logger
 
 
 class FSMCreate_user(StatesGroup):
@@ -92,6 +93,8 @@ async def proverka_logina(message: types.Message):
                 await users_db.sql_create_user(state)
                 await profile.profile(message)
                 await state.finish()
+                logger.info(f"{data['user_id']} создал профиль")
+
             else:
                 await message.bot.send_message(message.from_user.id, 'Чтобы завершить создание - нажмите кнопку "<b>Завершить</b>"',
                                                reply_markup=button_next)

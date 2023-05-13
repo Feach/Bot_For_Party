@@ -13,6 +13,7 @@ from handlers import my_party
 
 from data_base import party_db, json_parse_partys
 from keyboards.client_keyboards import keyboards_create_gender, button_next, button_next12, button_category, button_location, button_choice
+from loguru import logger
 
 
 class FSMCreate_party(StatesGroup):
@@ -190,6 +191,7 @@ async def proverka_party(message: types.Message):
         if message.text == "Завершить":
             await party_db.sql_create_party(state)
             await state.finish()
+            logger.info(f"{data['leader_id']} создал пати(info)")
             await message.bot.send_message(message.from_user.id, '<b>Пати успешно создано!</b>')
             await my_party.my_party(message)
         else:

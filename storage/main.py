@@ -4,6 +4,7 @@ from aiogram.utils import executor
 from import_buffer import dp
 from handlers.client import register_handlers_client
 from data_base import users_db, party_db
+from utils import logger
 
 register_handlers_client(dp)
 
@@ -13,6 +14,7 @@ async def on_startup(_):
     print('Бот работает')
     users_db.sql_users_start()
     party_db.sql_party_start()
+    logger.logger_start()
 
 
 executor.start_polling(dp, skip_updates=True, on_startup=on_startup)

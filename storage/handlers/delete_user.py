@@ -8,6 +8,7 @@ from config import PARSE_USER_LIST_URL, DELETE_USER_URL, STATISTIC_USER_DELETE_U
 from data_base import json_parse_users
 
 from keyboards.client_keyboards import ikb_start, ikb_help, ikb_my_party1, ikb_delete_user_yes_no
+from loguru import logger
 
 
 @dp.callback_query_handler(lambda query: query.data == "ibtn_delete_user", state='*')
@@ -41,6 +42,8 @@ async def delete_user_yes(message):
             "inside_id": my_item.get('inside_id')
         }
         requests.post(url=STATISTIC_USER_DELETE_URL, json=json_data)
+        logger.info(f"{my_item.get('user_id')} удалил профиль")
+
     await message.bot.send_message(message.from_user.id, '<b>Ваш профиль удален</b>', reply_markup=ikb_start)
 
 
