@@ -2,7 +2,7 @@
 import sqlite3
 import requests
 
-from config import CREATE_USER_URL, UPDATE_PROFILE_URL, STATISTIC_USER_CREATE_URL
+from config import CREATE_USER_URL, UPDATE_PROFILE_URL
 
 
 def sql_users_start():
@@ -25,7 +25,6 @@ async def sql_create_user(state):
             "inside_id": data['inside_id']
         }
     requests.post(url=CREATE_USER_URL, json=json_data)
-    requests.post(url=STATISTIC_USER_CREATE_URL, json=json_data)
 
 
 async def sql_update_profile(state):

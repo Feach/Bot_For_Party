@@ -6,7 +6,7 @@ import requests
 from import_buffer import dp
 from data_base import json_parse_users, json_parse_partys
 
-from config import CREATE_PARTY_URL, PARSE_PARTY_LIST_URL, PARSE_USER_LIST_URL, CONNECT_TO_PARTY_URL, STATISTIC_PARTY_CREATE_URL
+from config import CREATE_PARTY_URL, PARSE_PARTY_LIST_URL, PARSE_USER_LIST_URL, CONNECT_TO_PARTY_URL
 
 
 def sql_party_start():
@@ -35,7 +35,6 @@ async def sql_create_party(state):
             "leader_id": data['leader_id'],
         }
     requests.post(url=CREATE_PARTY_URL, json=json_data)
-    requests.post(url=STATISTIC_PARTY_CREATE_URL, json=json_data)
 
 
 @dp.callback_query_handler(lambda query: query.data == "connect_to_data")

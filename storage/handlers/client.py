@@ -1,6 +1,7 @@
 # Модуль клиентских хендлеров
 from aiogram import types, Dispatcher
 from config import admin_inside_id
+from loguru import logger
 from text_base.texts import FIRST_TEXT, HELP_COMMAND
 from keyboards import client_keyboards
 from keyboards.client_keyboards import ikb_help

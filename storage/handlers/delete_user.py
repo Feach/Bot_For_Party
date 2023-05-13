@@ -3,7 +3,7 @@
 import requests
 
 from import_buffer import dp
-from config import PARSE_USER_LIST_URL, DELETE_USER_URL, STATISTIC_USER_DELETE_URL
+from config import PARSE_USER_LIST_URL, DELETE_USER_URL
 
 from data_base import json_parse_users
 
@@ -33,15 +33,6 @@ async def delete_user_yes(message):
     if is_user_found:
         pk = my_item.get('pk')
         requests.delete(url=DELETE_USER_URL+f'{pk}'"")
-        json_data = {
-            "name": my_item.get('name'),
-            "gender": my_item.get('gender'),
-            "age": my_item.get('age'),
-            "discription": my_item.get('discription'),
-            "user_id": my_item.get('user_id'),
-            "inside_id": my_item.get('inside_id')
-        }
-        requests.post(url=STATISTIC_USER_DELETE_URL, json=json_data)
         logger.info(f"{my_item.get('user_id')} удалил профиль")
 
     await message.bot.send_message(message.from_user.id, '<b>Ваш профиль удален</b>', reply_markup=ikb_start)

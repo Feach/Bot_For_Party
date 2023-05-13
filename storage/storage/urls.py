@@ -17,9 +17,4 @@ urlpatterns = [
     path('update_profile/', views.UpdateProfileView.as_view()),
     path('create_users/', views.CreateUserView.as_view()),
     path('delete_users/<int:pk>/', views.DeleteUserView.as_view()),
-    path('statistic_create_users/', views.StatisticCreateUserView.as_view()),
-    path('statistic_create_party/', views.StatisticCreatePartyView.as_view()),
-    path('statistic_delete_users/', views.StatisticDeleteUserView.as_view()),
-    path('statistic_delete_party/', views.StatisticDeletePartyView.as_view()),
-
 ]
