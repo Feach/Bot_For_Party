@@ -1,7 +1,21 @@
 # Модуль взаимствования функций для генерации корзин и клавиатур
 import re
 
+from aiogram import types
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+
+from data_base import json_parse_users
+
+from config import PARSE_USER_LIST_URL
+
+
+async def check_auth(message: types.Message):
+    data = json_parse_users.get_json(url=PARSE_USER_LIST_URL)
+    is_user_exists = False
+    for item in data:
+        if str(item.get('user_id')) == "@" + str(message.from_user.username):
+            is_user_exists = True
+    return is_user_exists
 
 
 async def users(item):

@@ -12,6 +12,8 @@ from data_base import users_db, json_parse_users
 from keyboards.client_keyboards import ikb_profile, keyboards_create_gender, button_next
 from loguru import logger
 
+from utils import buffer_def
+
 
 class FSMCreate_user(StatesGroup):
     """Класс определения переменных FSM"""
@@ -25,11 +27,7 @@ class FSMCreate_user(StatesGroup):
 @dp.callback_query_handler(lambda query: query.data == "ibtn_create_user", state='*')
 async def proverka_logina(message: types.Message):
     """Функция проверки на наличие существующего профиля у пользователя """
-    data = json_parse_users.get_json(url=PARSE_USER_LIST_URL)
-    is_user_exists = False
-    for item in data:
-        if str(item.get('user_id')) == "@"+str(message.from_user.username):
-            is_user_exists = True
+    is_user_exists = await buffer_def.check_auth(message)
     if is_user_exists:
         await message.bot.send_message(message.from_user.id, 'У вас уже есть профиль')
         await profile.profile(message)

@@ -36,7 +36,8 @@ async def sql_update_profile(state):
             "gender": data['gender'],
             "age": data['age'],
             "discription": data['discription'],
-            "user_id": data['user_id']
+            "user_id": data['user_id'],
+            "inside_id": data['inside_id']
         }
     requests.post(url=UPDATE_PROFILE_URL, json=json_data)
 

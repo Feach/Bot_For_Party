@@ -94,12 +94,14 @@ class UpdateProfileView(views.APIView):
         age = request.data.get('age')
         discription = request.data.get('discription')
         user_id = request.data.get('user_id')
+        inside_id = request.data.get('inside_id')
         models.User.objects.filter(user_id=user_id).update(
             name=name,
             gender=gender,
             age=age,
             discription=discription,
-            user_id=user_id
+            user_id=user_id,
+            inside_id=inside_id
             )
         return Response('test', status=status.HTTP_201_CREATED)
 
@@ -176,7 +178,6 @@ class DeleteFromPartyView(views.APIView):
         party_pk = request.data.get("party_pk")
         user_id = request.data.get("user_id")
         user = models.User.objects.get(user_id=user_id)
-        print(user, party_pk)
         models.Party.objects.get(pk=party_pk).users.remove(user)
 
         return Response(status=status.HTTP_204_NO_CONTENT)

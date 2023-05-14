@@ -77,8 +77,9 @@ async def proverka_logina(message: types.Message):
         """Метод получения user_id и отправка данных для регистрации"""
         async with state.proxy() as data:
             data['user_id'] = "@" + message.from_user.username
+            data['inside_id'] = message.from_user.id
         if message.text == "Завершить":
-            await users_db.sql_create_user(state)
+            await users_db.sql_update_profile(state)
             await profile.profile(message)
             logger.info(f"{data['user_id']} обновил профиль")
 
